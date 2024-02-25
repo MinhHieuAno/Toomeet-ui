@@ -40,17 +40,12 @@ const LoginForm = () => {
                 data: { ...value },
             });
             const data = response.data;
-            if (data.token && data.user) {
-                localStorage.setItem("user", JSON.stringify(data.profile));
-
-                Cookies.set("access_token", data.token, {
-                    expires: data.expireIn,
-                });
-                auth.setUser(data.user);
+            if (data.token && data.account) {
+                auth.saveAuth({ ...data });
                 router.replace("/");
             } else {
                 router.push(
-                    `/auth/validation?o=${data.otpId}&p=${data.profileId}&2fa=true`
+                    `/auth/validation?o=${data.otpId}&a=${data.accountId}&2fa=true`
                 );
             }
         } catch (error: any) {

@@ -48,13 +48,12 @@ const RegisterForm = () => {
                 url: `/auth/register`,
                 data: { ...value },
             });
-
             const data = response.data;
 
-            if (!data.otpId || !data.profileId) {
+            if (!data.otpId || !data.accountId) {
                 throw new Error("Đã có lỗi xảy ra vui lòng thử lại sau!");
             }
-            router.push(`/auth/validation?o=${data.otpId}&p=${data.profileId}`);
+            router.push(`/auth/validation?o=${data.otpId}&a=${data.accountId}`);
         } catch (error: any) {
             for (const key in error) {
                 if (form.getValues(key as any))

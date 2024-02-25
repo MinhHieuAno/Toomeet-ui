@@ -8,10 +8,10 @@ const page = ({
     searchParams: { [key: string]: string | string[] | undefined };
 }) => {
     const otpId = searchParams["o"] as string;
-    const profileId = searchParams["p"] as string;
+    const accountId = searchParams["a"] as string;
     const is2Fa = !!(searchParams["2fa"] as string);
 
-    if (!otpId || !profileId) redirect("/auth/register");
+    if (!otpId || !accountId) redirect("/auth/register");
 
     return (
         <div className="p-6">
@@ -25,7 +25,7 @@ const page = ({
                 </div>
                 <OtpForm
                     is2Fa={is2Fa}
-                    profileId={profileId}
+                    accountId={accountId}
                     otpId={otpId}
                 ></OtpForm>
             </div>

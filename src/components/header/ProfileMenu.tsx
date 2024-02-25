@@ -37,14 +37,12 @@ const ProfileMenu = () => {
 
     const router = useRouter();
 
-    const { user, setUser } = useAuth();
+    const { account, logout } = useAuth();
 
-    if (!user) return <></>;
+    if (!account) return <></>;
 
     const handleSignOut = () => {
-        Cookies.remove("access_token");
-        localStorage.clear();
-        setUser(null);
+        logout();
         router.replace("/auth/login");
     };
 
@@ -54,10 +52,10 @@ const ProfileMenu = () => {
                 <Avatar>
                     <AvatarImage
                         loading={"lazy"}
-                        src={user?.profile.avatar || undefined}
+                        src={account?.user?.profile?.avatar || undefined}
                     ></AvatarImage>
                     <AvatarFallback>
-                        {user?.name.split(" ")[0][0]}
+                        {account?.user?.name.split(" ")[0][0]}
                     </AvatarFallback>
                 </Avatar>
             </DropdownMenuTrigger>
@@ -65,15 +63,17 @@ const ProfileMenu = () => {
                 <div className="flex justify-start items-start gap-3 p-3">
                     <Avatar>
                         <AvatarImage
-                            src={user?.profile.avatar || undefined}
+                            src={account?.user?.profile.avatar || undefined}
                         ></AvatarImage>
                         <AvatarFallback>
-                            {user?.name.split(" ")[0][0]}
+                            {account?.user?.name.split(" ")[0][0]}
                         </AvatarFallback>
                     </Avatar>
                     <div className="text-sm">
-                        <p className="font-semibold">{user?.name}</p>
-                        <p className="text-muted-foreground">{user?.email}</p>
+                        <p className="font-semibold">{account?.user?.name}</p>
+                        <p className="text-muted-foreground">
+                            {account?.email}
+                        </p>
                     </div>
                 </div>
                 <DropdownMenuSeparator />

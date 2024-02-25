@@ -20,15 +20,15 @@ import { Input } from "../ui/input";
 import { useAuth } from "@/context/AuthProvider";
 
 type Props = {
-    profileId: string;
+    accountId: string;
     otpId: string;
     is2Fa: boolean;
 };
 
-const OtpForm = ({ profileId: p, otpId: o, is2Fa }: Props) => {
+const OtpForm = ({ accountId: a, otpId: o, is2Fa }: Props) => {
     const [loading, setLoading] = useState<boolean>(false);
     const [otpId, setOtpId] = useState(() => o);
-    const [profileId, setProfileId] = useState(() => p);
+    const [accountId, setAccountId] = useState(() => a);
 
     const form = useForm<z.infer<typeof otpSchema>>({
         resolver: zodResolver(otpSchema),
@@ -45,18 +45,15 @@ const OtpForm = ({ profileId: p, otpId: o, is2Fa }: Props) => {
                 method: "POST",
                 url,
                 params: {
-                    p: profileId,
+                    a: accountId,
                     o: otpId,
                 },
                 data: value,
             });
 
             const data = response.data;
-            localStorage.setItem("user", JSON.stringify(data.user));
-            Cookies.set("access_token", data.token, {
-                expires: data.expireIn,
-            });
-            auth.setUser(data.user);
+
+            auth.saveAuth({ ...data });
             router.replace("/");
         } catch (error: any) {
             const message = error?.response?.data?.message;
@@ -74,7 +71,7 @@ const OtpForm = ({ profileId: p, otpId: o, is2Fa }: Props) => {
                 method: "POST",
                 url: `${process.env.NEXT_PUBLIC_SERVER_URL}/auth/otp/resend`,
                 params: {
-                    p: profileId,
+                    a: accountId,
                     o: otpId,
                 },
             });
