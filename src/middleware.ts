@@ -26,9 +26,9 @@ export function middleware(request: NextRequest) {
 
     if (isPublicPage) return null;
 
-    // if (!isLoggedIn) {
-    //     return NextResponse.redirect(new URL("/auth/login", request.url));
-    // }
+    if (!isLoggedIn) {
+        return NextResponse.redirect(new URL("/auth/login", request.url));
+    }
 }
 
 export const config = {
