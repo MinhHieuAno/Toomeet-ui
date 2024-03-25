@@ -12,11 +12,11 @@ const Avatar = React.forwardRef<
     <AvatarPrimitive.Root
         ref={ref}
         className={cn(
-            "relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full border-primary border dark:border-slate-400",
+            "relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full border-primary border dark:border-slate-400 ",
             className
         )}
         {...props}
-    />
+    ></AvatarPrimitive.Root>
 ));
 Avatar.displayName = AvatarPrimitive.Root.displayName;
 

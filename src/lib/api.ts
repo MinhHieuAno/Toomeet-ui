@@ -12,6 +12,7 @@ api.interceptors.request.use(
         if (token) {
             request.headers["Authorization"] = `Bearer ${token}`;
         }
+
         return request;
     },
     ///
@@ -31,6 +32,7 @@ api.interceptors.response.use(
         //     }
         //     return api(config);
         // }
+
         const message = error?.response?.data?.message;
         if (message) return Promise.reject(message);
         return Promise.reject("Đã có lỗi xảy ra vui lòng thử lại sau");

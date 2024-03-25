@@ -1,9 +1,11 @@
 import LoginForm from "@/components/form/LoginForm";
-import RegisterForm from "@/components/form/RegisterForm";
 import Logo from "@/components/ui/Logo";
 import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
-import React from "react";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "Đăng nhập",
+};
 
 const page = () => {
     return (

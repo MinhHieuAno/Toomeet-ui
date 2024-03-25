@@ -7,21 +7,29 @@ import {
     CardTitle,
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import { cn } from "@/lib/utils";
 
 type Props = {
-    children: ReactNode;
+    children?: ReactNode;
     title?: string;
     description?: string;
+    className?: string;
+    fullScreen?: boolean;
+    header?: ReactNode;
 };
 
-const SidebarItem: FC<Props> = (props) => {
+const SidebarBlock: FC<Props> = (props) => {
     return (
-        <Card>
-            {(props.title || props.description) && (
+        <Card
+            className={cn({
+                "min-h-[calc(100svh-150px)]": props.fullScreen,
+            })}
+        >
+            {!props.header && (props.title || props.description) && (
                 <>
                     <CardHeader>
                         {props.title && (
-                            <CardTitle className="text-lg text-primary">
+                            <CardTitle className="xl:text-lg text-primary">
                                 {props.title}
                             </CardTitle>
                         )}
@@ -34,9 +42,17 @@ const SidebarItem: FC<Props> = (props) => {
                     <Separator />
                 </>
             )}
-            <CardContent className="">{props.children}</CardContent>
+            {props.header && (
+                <>
+                    {props.header}
+                    <Separator />
+                </>
+            )}
+            <CardContent className={cn(props.className)}>
+                {props.children}
+            </CardContent>
         </Card>
     );
 };
 
-export default SidebarItem;
+export default SidebarBlock;

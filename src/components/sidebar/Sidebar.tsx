@@ -15,10 +15,9 @@ const Sidebar: FC<Props> = ({ className, children }) => {
                 className
             )}
         >
-            <ScrollArea className="h-full w-full hidden-scroll">
+            <ScrollArea className="h-full w-full hidden-scroll custom-scroll overflow-hidden">
                 <div className=" space-y-4 p-3">{children}</div>
             </ScrollArea>
-            {children}
         </div>
     );
 };

@@ -82,7 +82,7 @@ const RegisterForm = () => {
                     render={({ field }) => (
                         <FormItem>
                             <FormLabel>Email</FormLabel>
-                            <FormControl>
+                            <FormControl {...field}>
                                 <Input
                                     placeholder="abc@gmail.com"
                                     {...field}
@@ -99,7 +99,7 @@ const RegisterForm = () => {
                     render={({ field }) => (
                         <FormItem>
                             <FormLabel>Tên người dùng</FormLabel>
-                            <FormControl>
+                            <FormControl {...field}>
                                 <Input
                                     placeholder="Nguyễn Văn A"
                                     {...field}
@@ -116,7 +116,7 @@ const RegisterForm = () => {
                     render={({ field }) => (
                         <FormItem>
                             <FormLabel>Mật khẩu</FormLabel>
-                            <FormControl>
+                            <FormControl {...field}>
                                 <Input
                                     type="password"
                                     placeholder="********"
@@ -136,7 +136,7 @@ const RegisterForm = () => {
                                 <FormLabel className="">Ngày sinh</FormLabel>
                                 <Popover>
                                     <PopoverTrigger asChild className="w-full">
-                                        <FormControl>
+                                        <FormControl {...field}>
                                             <Button
                                                 variant={"outline"}
                                                 className={cn(
@@ -199,7 +199,7 @@ const RegisterForm = () => {
                                     onValueChange={field.onChange}
                                     defaultValue={field.value}
                                 >
-                                    <FormControl>
+                                    <FormControl {...field}>
                                         <SelectTrigger>
                                             <SelectValue placeholder="Giới tính" />
                                         </SelectTrigger>

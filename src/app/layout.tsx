@@ -4,18 +4,22 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/context/ThemeProvider";
 import { AuthProvider } from "@/context/AuthProvider";
+import { Toaster } from "@/components/ui/toaster";
+import { SocketProvider } from "@/context/SocketProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
     title: {
         default:
-            "Toomeet - Nơi kết nối, chia sẻ thông tin, học tập và phát triển cùng cộng đồng sinh viên năng động, sáng tạo.",
+            "TooMeet - Mạng xã hội sinh viên - Kết nối, chia sẻ và phát triển",
         template:
-            "%s - Toomeet | Mạng xã hội sinh viên - Kết nối, chia sẻ và phát triển",
+            "%s | TooMeet - Mạng xã hội sinh viên - Kết nối, chia sẻ và phát triển",
     },
     description: `Mạng xã hội dành riêng cho sinh viên. Nơi kết nối, chia sẻ thông tin, học tập và phát triển cùng cộng đồng sinh viên năng động, sáng tạo.`,
     keywords: [
+        "TooMeet",
+        "Mạng xã hội Toomeet",
         "Mạng xã hội sinh viên",
         "Mạng xã hội TDMU",
         "Kết nối sinh viên TDMU",
@@ -42,10 +46,12 @@ export default function RootLayout({
                     disableTransitionOnChange
                 >
                     <AuthProvider>
-                        <Header></Header>
-                        <div className="bg-primary/0">{children}</div>
+                        <SocketProvider>
+                            <div className="bg-primary/0">{children}</div>
+                        </SocketProvider>
                     </AuthProvider>
                 </ThemeProvider>
+                <Toaster />
             </body>
         </html>
     );

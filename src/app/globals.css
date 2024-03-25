@@ -69,4 +69,24 @@
     .shadow-1 {
         box-shadow: rgba(17, 17, 26, 0.1) 0px 0px 16px;
     }
+
+    .custom-scroll::-webkit-scrollbar {
+        width: 4px;
+        @apply group-hover:block;
+    }
+
+    .custom-scroll::-webkit-scrollbar-track {
+        @apply shadow-lg bg-slate-200;
+    }
+
+    .custom-scroll::-webkit-scrollbar-thumb {
+        @apply rounded-full bg-primary shadow-primary;
+    }
+
+    .abs-center {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
 }

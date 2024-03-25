@@ -8,6 +8,7 @@ import React, {
     useTransition,
 } from "react";
 import Cookies from "js-cookie";
+import { useRouter } from "next/navigation";
 
 type AuthProviderProps = {
     children: React.ReactNode;
@@ -20,8 +21,11 @@ type Account = {
         id: number;
         name: string;
         profile: {
-            avatar: string | null;
-            background: string | null;
+            avatar: {
+                url: string;
+                format: string;
+            } | null;
+            background: { url: string; format: string } | null;
             description: string | null;
             dateOfBirth: string;
             gender: "FEMALE" | "MALE" | "ORTHER";
@@ -51,10 +55,11 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
     useEffect(() => {
         startFetchUser(() => {
-            auth().then((data) => setAccount(data));
+            auth(logout).then((data) => setAccount(data));
         });
     }, []);
 
+    const router = useRouter();
     const saveAuth = (auth: {
         account: Account;
         expireIn: number;
@@ -65,7 +70,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         localStorage.setItem("token-type", JSON.stringify(auth.tokenType));
 
         Cookies.set("access_token", auth.token, {
-            expires: auth.expireIn,
+            expires: new Date(new Date().getTime() + auth.expireIn),
         });
         setAccount(auth.account);
     };
@@ -75,6 +80,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         setAccount(null);
         sessionStorage.clear();
         localStorage.clear();
+        router.replace("/auth/login");
     };
 
     const values = { account, saveAuth, logout, loading };
@@ -84,9 +90,8 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     );
 };
 
-const auth = async (): Promise<Account | null> => {
+const auth = async (logout: () => void): Promise<Account | null> => {
     const userStorage = sessionStorage.getItem("account");
-
     const token = Cookies.get("access_token");
 
     if (!token) {
@@ -94,44 +99,42 @@ const auth = async (): Promise<Account | null> => {
         return null;
     }
 
-    try {
-        if (userStorage) {
-            return JSON.parse(userStorage);
-        }
-    } catch (error) {
-        console.log({ error });
+    if (userStorage) {
+        return JSON.parse(userStorage);
     }
-
     try {
-        const reponse = await api("/users/info");
-        const data = reponse.data;
-        console.log({ data });
-
-        const mockData: Account = {
-            accountId: "1234",
-            email: "hieu@gmail.com",
-            user: {
-                id: 1,
-                name: "Minh Hieu",
-                profile: {
-                    avatar: null,
-                    background: null,
-                    description: null,
-                    dateOfBirth: "2008-01-31T17:00:00.000+00:00",
-                    gender: "MALE",
-                },
-                createdAt: "2008-01-31T17:00:00.000+00:00",
-                updatedAt: "2008-01-31T17:00:00.000+00:00",
-            },
-        };
-
-        localStorage.setItem("user", JSON.stringify(mockData));
-
-        return mockData;
+        const account = await getAccount();
+        sessionStorage.setItem("user", JSON.stringify(account));
+        return account;
     } catch (error: any) {
-        console.log({ error });
+        logout();
         return null;
     }
+};
+
+const getAccount = async (): Promise<Account> => {
+    const { data } = await api("/users/account");
+    return data;
+    // return {
+    //     accountId: "1234",
+    //     email: "hieu@gmail.com",
+    //     user: {
+    //         id: 1,
+    //         updatedAt: "",
+    //         createdAt: "",
+    //         name: "Minh Hieu",
+    //         profile: {
+    //             avatar: {
+    //                 format: "PNG",
+    //                 url: "https://ik.imagekit.io/freeflo/production/24b2bc0e-6d28-4018-8a2d-fa9b34427864.png?tr=w-1920,q-75&alt=media&pr-true",
+    //             },
+    //             background: null,
+    //             dateOfBirth: new Date().toISOString(),
+    //             description: null,
+    //             gender: "MALE",
+    //         },
+    //     },
+    // };
 };
 
 const useAuth = () => {

@@ -13,7 +13,7 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useAuth } from "@/context/AuthProvider";
-import Cookies from "js-cookie";
+import { getUsername } from "@/lib/utils";
 
 import {
     Bell,
@@ -30,7 +30,7 @@ import {
 } from "lucide-react";
 import { useTheme } from "next-themes";
 import { useRouter } from "next/navigation";
-import { ReactNode, useState } from "react";
+import { ReactNode } from "react";
 
 const ProfileMenu = () => {
     const { setTheme } = useTheme();
@@ -52,10 +52,10 @@ const ProfileMenu = () => {
                 <Avatar>
                     <AvatarImage
                         loading={"lazy"}
-                        src={account?.user?.profile?.avatar || undefined}
+                        src={account?.user?.profile?.avatar?.url || undefined}
                     ></AvatarImage>
                     <AvatarFallback>
-                        {account?.user?.name.split(" ")[0][0]}
+                        {getUsername(account.user.name)[0]}
                     </AvatarFallback>
                 </Avatar>
             </DropdownMenuTrigger>
@@ -63,10 +63,12 @@ const ProfileMenu = () => {
                 <div className="flex justify-start items-start gap-3 p-3">
                     <Avatar>
                         <AvatarImage
-                            src={account?.user?.profile.avatar || undefined}
+                            src={
+                                account?.user?.profile?.avatar?.url || undefined
+                            }
                         ></AvatarImage>
                         <AvatarFallback>
-                            {account?.user?.name.split(" ")[0][0]}
+                            {getUsername(account.user.name)[0]}
                         </AvatarFallback>
                     </Avatar>
                     <div className="text-sm">
