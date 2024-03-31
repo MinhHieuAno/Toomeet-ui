@@ -1,16 +1,18 @@
 import MaxWidthWrapper from "@/components/wrappers/MaxWidthWrapper";
 import { Metadata } from "next";
-import { ReactNode } from "react";
-import "@/app/reaction.css";
+import React, { ReactNode } from "react";
 
 export const metadata: Metadata = {
-    title: "Trò chuyện",
+    title: "Minh Hieu",
 };
 
-type Props = { children: ReactNode };
+type Props = {
+    children: ReactNode;
+};
+
 const layout = ({ children }: Props) => {
     return (
-        <MaxWidthWrapper className="xl:grid xl:grid-cols-10 gap-2 py-4">
+        <MaxWidthWrapper className="my-5 mx-auto max-w-[90rem]">
             {children}
         </MaxWidthWrapper>
     );

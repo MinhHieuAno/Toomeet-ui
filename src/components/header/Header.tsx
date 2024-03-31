@@ -12,12 +12,14 @@ const Header = (props: Props) => {
     const { setTheme, theme } = useTheme();
     return (
         <>
-            {/* <div className="hidden 2xl:block ">2xl</div>
-            <div className="hidden xl:block 2xl:hidden">xl</div>
-            <div className="hidden lg:block xl:hidden">lg</div>
-            <div className="hidden md:block lg:hidden">md</div>
-            <div className="hidden sm:block md:hidden">sm</div>
-            <div className="sm:hidden">mobile</div> */}
+            {/* <div className="absolute z-[1000] top-3 left-3 bg-primary px-5 py-4 rounded-md text-white font-semibold">
+                <div className="hidden 2xl:block ">2xl</div>
+                <div className="hidden xl:block 2xl:hidden">xl</div>
+                <div className="hidden lg:block xl:hidden">lg</div>
+                <div className="hidden md:block lg:hidden">md</div>
+                <div className="hidden sm:block md:hidden">sm</div>
+                <div className="sm:hidden">mobile</div>
+            </div> */}
 
             <header className="shadow-1 bg-white dark:bg-slate-900 backdrop-blur-sm bg-opacity-80 sticky top-0 z-50">
                 <MaxWidthWrapper className=" grid grid-cols-12 gap-2 items-center">
@@ -27,7 +29,6 @@ const Header = (props: Props) => {
                     <HeaderAction className=" col-start-10 col-end-13"></HeaderAction>
                 </MaxWidthWrapper>
             </header>
-            <Navbar className="fixed md:hidden -bottom-[8px] p-3 pb-5 w-svw left-[50%] -translate-x-[50%] dark:bg-slate-900 z-50 bg-white da col-start-4 col-end-10 mx-0 2xl:mx-16 shadow-xl border-t"></Navbar>
         </>
     );
 };

@@ -5,14 +5,10 @@ import { useChatRoom } from "@/context/ChatRoomProvider";
 import { useSocket } from "@/context/SocketProvider";
 import api from "@/lib/api";
 import { MessageReactionType, MessageType } from "@/lib/chat.utils";
-import {
-    ReactionType,
-    Reactions,
-    convertReactionToText,
-} from "@/lib/reaction.utils";
+import { Reactions, convertReactionToText } from "@/lib/reaction.utils";
 import { cn } from "@/lib/utils";
 import { ThumbsUp } from "lucide-react";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 type Props = {
     message: MessageType;
@@ -115,7 +111,7 @@ const MessageReaction = ({ message, isOwner }: Props) => {
                                 <img
                                     className="object-cover w-full h-full pointer-events-none"
                                     src={`/reactions/${reaction.type.toLowerCase()}.png`}
-                                    alt=""
+                                    alt="reaction-icon"
                                 />
                             </div>
                         </div>
@@ -150,7 +146,7 @@ const MessageReaction = ({ message, isOwner }: Props) => {
                                     "flex gap-2 items-center"
                                 )}
                             >
-                                <div className="hidden md:flex w-5 h-5  justify-center items-center">
+                                <div className="flex w-5 h-5  justify-center items-center">
                                     {activeReaction?.image ? (
                                         <img
                                             className="object-cover w-full h-full pointer-events-none"

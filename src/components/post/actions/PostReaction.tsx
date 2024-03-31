@@ -1,16 +1,13 @@
 "use client";
-import { Button } from "@/components/ui/button";
 import { Reaction } from "@/components/ui/reaction";
+import { useToast } from "@/components/ui/use-toast";
+import { useAuth } from "@/context/AuthProvider";
+import { usePost } from "@/context/PostProvider";
+import api from "@/lib/api";
+import { ReactionType } from "@/lib/reaction.utils";
 import { cn } from "@/lib/utils";
 import { ThumbsUp } from "lucide-react";
-import React from "react";
 import PostActionItem from "./PostActionItem";
-import { ReactionType } from "@/lib/reaction.utils";
-import { useAuth } from "@/context/AuthProvider";
-import { useToast } from "@/components/ui/use-toast";
-import api from "@/lib/api";
-import { json } from "stream/consumers";
-import { usePost } from "@/context/PostProvider";
 
 type Props = {
     postId: string;

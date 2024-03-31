@@ -80,15 +80,15 @@ const MessageList = ({ className }: Props) => {
             id={`message-list-${room?.id}`}
             className={cn(
                 className,
-                "relative overflow-y-auto custom-scroll flex flex-col-reverse h-[300px]"
+                "relative h-[300px] overflow-y-auto custom-scroll flex flex-col-reverse pb-[500px]"
             )}
         >
             {!frist.current && messages.length === 0 && (
-                <div className="abs-center text-muted-foreground font-medium">
+                <div className="abs-center text-center text-muted-foreground font-medium">
                     Hãy bắt đầu cuộc trò chuyện
                 </div>
             )}
-            <div className="p-5  pb-10  gap-5 flex flex-col">
+            <div className="p-5  gap-5 flex flex-col">
                 {unReadMessages.map((message, index) => (
                     <Message
                         canScrollIntoView

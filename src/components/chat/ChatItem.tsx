@@ -63,7 +63,7 @@ const ChatItem = ({ className, room: data }: Props) => {
 
     return (
         <Link
-            href={`/messages/${room.id}`}
+            href={`/messages/room/${room.id}`}
             className={cn(
                 "group relative flex justify-start items-start gap-2 w-full max-w-full px-5 py-4 hover:bg-slate-100/50 dark:hover:bg-slate-900 transition-colors  cursor-pointer ",
                 className
@@ -91,8 +91,8 @@ const ChatItem = ({ className, room: data }: Props) => {
                             message={latestMessage}
                         ></LatestdMessage>
                     ) : (
-                        <p className="text-sm text-red-500">
-                            tải tin nhắn thất bại
+                        <p className="text-sm text-muted-foreground">
+                            Hãy bắt đầu cuộc trò chuyện
                         </p>
                     ))}
             </div>
@@ -105,20 +105,19 @@ type LatestdMessageProps = {
 };
 
 const LatestdMessage: FC<LatestdMessageProps> = ({ message }) => {
-    if (message.text)
-        return (
-            <p className="text-sm text-muted-foreground">
-                {message.senderName}:
-                {message.text
-                    ? message.text
-                    : message.icon
-                    ? "Icon"
-                    : message.image
-                    ? "Hình ảnh"
-                    : ""}
-                {moment(message.timestamp).toNow()}
-            </p>
-        );
+    return (
+        <p className="text-sm text-muted-foreground">
+            {message.senderName}:
+            {message.text
+                ? message.text
+                : message.icon
+                ? "Icon"
+                : message.image
+                ? "Hình ảnh"
+                : ""}
+            <span className="mx-1">{moment(message.timestamp).toNow()}</span>
+        </p>
+    );
 };
 
 export default ChatItem;

@@ -1,5 +1,4 @@
 "use client";
-import "@/app/reaction.css";
 import {
     ReactionType,
     ReacttionItemType,
@@ -8,6 +7,7 @@ import {
 import { X } from "lucide-react";
 import React, { useState } from "react";
 import { Button, ButtonProps } from "./button";
+import "@/app/reaction.css";
 
 type Props = {
     children: (
@@ -108,7 +108,7 @@ const ReactionItem: React.FC<ReactionItemProps> = ({
     return (
         <button variant="ghost" className="reaction-item" {...props}>
             <img
-                className="reaction-img"
+                className="reaction-img w-full h-full object-cover"
                 src={`/reactions/${image}`}
                 alt={`reaction-${name}`}
             />

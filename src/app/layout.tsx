@@ -6,6 +6,8 @@ import { ThemeProvider } from "@/context/ThemeProvider";
 import { AuthProvider } from "@/context/AuthProvider";
 import { Toaster } from "@/components/ui/toaster";
 import { SocketProvider } from "@/context/SocketProvider";
+import { ViewportProvider } from "@/context/ViewportProvider";
+import { headers } from "next/headers";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -36,6 +38,8 @@ export default function RootLayout({
 }: Readonly<{
     children: React.ReactNode;
 }>) {
+    const headerList = headers();
+    const viewport = headerList.get("viewport");
     return (
         <html lang="en">
             <body className={inter.className}>
@@ -45,11 +49,13 @@ export default function RootLayout({
                     enableSystem
                     disableTransitionOnChange
                 >
-                    <AuthProvider>
-                        <SocketProvider>
-                            <div className="bg-primary/0">{children}</div>
-                        </SocketProvider>
-                    </AuthProvider>
+                    <ViewportProvider viewport={viewport as any}>
+                        <AuthProvider>
+                            <SocketProvider>
+                                <div className="bg-primary/0">{children}</div>
+                            </SocketProvider>
+                        </AuthProvider>
+                    </ViewportProvider>
                 </ThemeProvider>
                 <Toaster />
             </body>

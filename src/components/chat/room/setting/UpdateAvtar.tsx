@@ -45,7 +45,7 @@ const UpdateAvtar = (props: Props) => {
 
     return (
         <div className="relative">
-            <Avatar className="relative mx-auto w-28 h-28">
+            <Avatar className="relative mx-auto w-24 h-24 lg:w-28 lg:h-28">
                 <AvatarImage src={room?.avatar || undefined}></AvatarImage>
                 <AvatarFallback>
                     {getUsername(room?.name || "")?.[0]}

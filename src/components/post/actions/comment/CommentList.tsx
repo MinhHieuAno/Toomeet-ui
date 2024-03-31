@@ -14,7 +14,7 @@ type Props = {
 };
 
 const CommentList = ({ parent }: Props) => {
-    const [comments, setComments] = useState<CommentType[]>([...commentsMock]);
+    const [comments, setComments] = useState<CommentType[]>([]);
     const [page, setPage] = useState<Page>({
         last: false,
         index: -1,
@@ -64,12 +64,12 @@ const CommentList = ({ parent }: Props) => {
     return (
         <div className="relative w-full max-h-[80svh] h-min flex-1 flex flex-col justify-start  mt-4 overflow-y-auto custom-scroll">
             {!frist.current && comments.length === 0 && (
-                <div className="abs-center text-muted-foreground font-medium">
+                <div className="abs-center text-muted-foreground text-center font-medium">
                     Hãy là người đầu tiên bình luận bài viết này
                 </div>
             )}
             <InfiniteScroll
-                className="w-full h-full space-y-5 p-2"
+                className="w-full min-h-[400px] space-y-5 p-2 max-h-[80svh] "
                 dataLength={comments.length}
                 next={fetch}
                 hasMore={!page.last}

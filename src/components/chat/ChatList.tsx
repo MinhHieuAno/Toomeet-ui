@@ -1,20 +1,17 @@
 "use client";
 import api from "@/lib/api";
+import { RoomType } from "@/lib/chat.utils";
+import { Page } from "@/lib/common.type";
 import { useEffect, useRef, useState } from "react";
-import { ScrollArea } from "../ui/scroll-area";
+import InfiniteScroll from "react-infinite-scroll-component";
 import { useToast } from "../ui/use-toast";
 import ChatItem from "./ChatItem";
-import { Page } from "@/lib/common.type";
-import InfiniteScroll from "react-infinite-scroll-component";
-import { sleep } from "@/lib/utils";
 import ChatItemLoading from "./ChatItemLoading";
-import { RoomType } from "@/lib/chat.utils";
+import { useViewport } from "@/context/ViewportProvider";
 
 type Props = {};
 
-// let first = true;
-
-const ChatList = (props: Props) => {
+const ChatList = ({}: Props) => {
     const [chats, setChats] = useState<RoomType[]>([]);
     const [page, setPage] = useState<Page>({
         last: false,
@@ -24,6 +21,7 @@ const ChatList = (props: Props) => {
         totalPages: 0,
     });
 
+    const { viewport } = useViewport();
     const first = useRef<boolean>(true);
 
     const { toast } = useToast();
@@ -41,7 +39,7 @@ const ChatList = (props: Props) => {
             const { data } = await api("/chats/rooms", {
                 params: {
                     p: page.index + 1,
-                    l: 9,
+                    l: 15,
                 },
             });
 
@@ -64,7 +62,7 @@ const ChatList = (props: Props) => {
 
     return (
         <div
-            className="mt-3 w-full h-[70svh]  border overflow-y-auto custom-scroll"
+            className="mt-3 w-full h-[calc(100svh-222px)] xl:h-[70svh] overflow-y-auto custom-scroll "
             id="chat-list-wrapper"
         >
             <InfiniteScroll

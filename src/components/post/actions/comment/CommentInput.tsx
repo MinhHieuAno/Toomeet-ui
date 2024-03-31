@@ -8,7 +8,7 @@ import api from "@/lib/api";
 import { CommentType } from "@/lib/post.utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SendHorizontal } from "lucide-react";
-import { Dispatch, SetStateAction, useEffect, useRef } from "react";
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 type Props = {
@@ -22,6 +22,7 @@ const commentSchema = z.object({
 });
 
 const CommentInput = ({ parent, setComments }: Props) => {
+    const [loading, setLoading] = useState<boolean>(false);
     const form = useForm<z.infer<typeof commentSchema>>({
         resolver: zodResolver(commentSchema),
         defaultValues: {
@@ -43,45 +44,24 @@ const CommentInput = ({ parent, setComments }: Props) => {
     }, []);
 
     const handleSubmit = async (value: z.infer<typeof commentSchema>) => {
-        // try {
-        //     const { data } = await api({
-        //         method: "POST",
-        //         url: `/posts/${post.id}/comments`,
-        //         data: value,
-        //     });
-        //     console.log({ data });
-        // } catch (error) {
-        //     console.log(error);
-        //     toast({
-        //         title: "",
-        //         description: "",
-        //     });
-        // }
+        try {
+            setLoading(true);
+            const { data } = await api({
+                method: "POST",
+                url: `/posts/${post.id}/comments`,
+                data: value,
+            });
+            setComments((comments) => [...comments, data]);
+            form.setValue("content", "");
+        } catch (error) {
+            console.log(error);
+            toast({
+                title: "",
+                description: "",
+            });
+        }
 
-        setComments((comments) => [
-            ...comments,
-            {
-                id: crypto.randomUUID(),
-                content: value.content,
-                level: 0,
-                parentId: parent,
-                author: {
-                    id: 123,
-                    avatar: "https://ik.imagekit.io/freeflo/production/24b2bc0e-6d28-4018-8a2d-fa9b34427864.png?tr=w-1920,q-75&alt=media&pr-true",
-                    name: "John Doe",
-                },
-                likeCount: 10,
-                reaction: {
-                    emoji: 1, // Assuming emoji: 1 represents a thumbs up reaction
-                    users: [456, 789],
-                },
-                replyCount: 2,
-                createAt: "2024-03-22T00:00:00.000Z",
-                updateAt: null,
-            },
-        ]);
-
-        form.setValue("content", "");
+        setLoading(false);
     };
 
     return (

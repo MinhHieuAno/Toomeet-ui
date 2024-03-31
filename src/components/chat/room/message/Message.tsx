@@ -64,7 +64,7 @@ const Message = ({
             ref={messageRef}
             id={`message-${message.id}`}
             className={cn(
-                "group relative flex justify-start gap-2",
+                "group relative flex justify-start gap-2 ",
                 {
                     " flex-row-reverse": isOwner,
                 },
@@ -132,15 +132,18 @@ const Message = ({
                 )}
                 {/* MAIN MESSAGE */}
                 <div
-                    className={cn("flex gap-2 items-center", {
-                        "flex-row-reverse": isOwner,
-                    })}
+                    className={cn(
+                        "flex flex-col md:flex-row gap-2 items-center",
+                        {
+                            "flex-row-reverse": isOwner,
+                        }
+                    )}
                 >
                     <ContextMenu>
                         <ContextMenuTrigger>
                             <div
                                 className={cn(
-                                    "relative  px-3 py-2  w-max rounded-md max-w-xl z-10",
+                                    "relative  px-3 py-2  w-max rounded-md max-w-[60svw] md:max-w-xl z-10",
                                     {
                                         " text-white bg-primary": isOwner,
                                         "bg-slate-200 dark:bg-slate-900":
@@ -164,47 +167,51 @@ const Message = ({
                                         {sender?.name}
                                     </p>
                                 )}
-                                {/* MESSAGE TEXT */}
-                                {message.text &&
-                                    (message.text.match(urlRegex) ? (
-                                        <Link
-                                            className="text-pretty hover:underline"
-                                            href={
-                                                message.text.match(
-                                                    urlRegex
-                                                )?.[0] || ""
-                                            }
-                                        >
-                                            {message.text}
-                                        </Link>
-                                    ) : (
-                                        <p
-                                            className={cn("text-pretty", {
-                                                "select-none ": message.recall,
-                                            })}
-                                        >
-                                            {message.text}
-                                        </p>
-                                    ))}
-                                {/* ICON */}
-                                {message.icon && (
-                                    <div className="rounded-full p-4">
-                                        <MessageIcon
-                                            color={setting?.color}
-                                            icon={message.icon}
-                                        ></MessageIcon>
-                                    </div>
-                                )}
-                                {/* IMAGE */}
-                                {message.image && (
-                                    <div className="w-60 aspect-square rounded-md">
-                                        <img
-                                            className="w-full h-full rounded-[inherit] object-cover"
-                                            src={message.image}
-                                            alt={`message-image-${message.id}`}
-                                        />
-                                    </div>
-                                )}
+                                <div className="my-3 max-w-full">
+                                    {/* MESSAGE TEXT */}
+                                    {message.text &&
+                                        (message.text.match(urlRegex) ? (
+                                            <Link
+                                                className="text-pretty hover:underline"
+                                                href={
+                                                    message.text.match(
+                                                        urlRegex
+                                                    )?.[0] || ""
+                                                }
+                                            >
+                                                {message.text}
+                                            </Link>
+                                        ) : (
+                                            <p
+                                                className={cn("text-pretty", {
+                                                    "select-none ":
+                                                        message.recall,
+                                                })}
+                                            >
+                                                {message.text}
+                                            </p>
+                                        ))}
+                                    {/* ICON */}
+                                    {message.icon && (
+                                        <div className="rounded-full p-4">
+                                            <MessageIcon
+                                                color={setting?.color}
+                                                icon={message.icon}
+                                            ></MessageIcon>
+                                        </div>
+                                    )}
+                                    {/* IMAGE */}
+                                    {message.image && (
+                                        <div className="w-full aspect-square rounded-md flex justify-center items-center">
+                                            <img
+                                                className="w-full h-full rounded-[inherit] object-cover"
+                                                src={message.image}
+                                                alt={`message-image-${message.id}`}
+                                            />
+                                        </div>
+                                    )}
+                                </div>
+
                                 {/* TIMESTAMP */}
                                 <p
                                     className={cn("text-xs mt-1", {

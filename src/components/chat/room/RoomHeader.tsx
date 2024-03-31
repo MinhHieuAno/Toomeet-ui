@@ -2,16 +2,22 @@ import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
 import { cn, getUsername } from "@/lib/utils";
 import { AvatarFallback } from "@radix-ui/react-avatar";
-import { Info } from "lucide-react";
+import { ChevronLeft, Info } from "lucide-react";
 import React from "react";
 import ChatAction from "./ChatAction";
 import { useChatRoom } from "@/context/ChatRoomProvider";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useViewport } from "@/context/ViewportProvider";
+import { Button, buttonVariants } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 type Props = { className?: string };
 
 const RoomHeader = ({ className }: Props) => {
     const { room, loading } = useChatRoom();
+    const { viewport } = useViewport();
+    const router = useRouter();
 
     return (
         <div
@@ -21,6 +27,16 @@ const RoomHeader = ({ className }: Props) => {
             )}
         >
             <div className="h-full flex justify-start items-center gap-2">
+                {viewport === "mobile" && (
+                    <Link
+                        className={cn(
+                            buttonVariants({ variant: "ghost", size: "icon" })
+                        )}
+                        href="/messages"
+                    >
+                        <ChevronLeft />
+                    </Link>
+                )}
                 <Avatar>
                     <AvatarImage src={room?.avatar} />
                     <AvatarFallback>

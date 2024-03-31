@@ -41,7 +41,7 @@ const CreatChatRoomForm = (props: Props) => {
                     color: value.color,
                 },
             });
-            router.push("/messages/" + data.id);
+            router.push("/messages/room/" + data.id);
         } catch (error: any) {
             toast({
                 title: "Lỗi",

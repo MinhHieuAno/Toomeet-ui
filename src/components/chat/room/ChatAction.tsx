@@ -9,12 +9,12 @@ type Props = {};
 const ChatAction = (props: Props) => {
     return (
         <div className="flex justify-end items-center gap-2">
-            <Button variant="ghost">
+            {/* <Button variant="ghost">
                 <Video size={20}></Video>
             </Button>
             <Button variant="ghost">
                 <Phone size={20}></Phone>
-            </Button>
+            </Button> */}
             <Sheet>
                 <SheetTrigger asChild>
                     <Button variant="ghost">
