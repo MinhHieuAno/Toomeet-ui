@@ -3,10 +3,17 @@ import React, { ReactNode } from "react";
 import { Button, ButtonProps } from "../ui/button";
 import { useRouter } from "next/navigation";
 
-const ButtonBack = (props: ButtonProps) => {
+type Props = {
+    backUrl?: string;
+} & ButtonProps;
+
+const ButtonBack = ({ backUrl, ...props }: Props) => {
     const router = useRouter();
     return (
-        <Button {...props} onClick={() => router.back()}>
+        <Button
+            {...props}
+            onClick={() => (backUrl ? router.replace(backUrl) : router.back())}
+        >
             {props.children || "back"}
         </Button>
     );

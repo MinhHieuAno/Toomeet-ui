@@ -4,12 +4,13 @@ import TextArea from "@/components/ui/text-area";
 import { cn } from "@/lib/utils";
 import { Heart, Laugh, SendHorizontal, ThumbsUp, X } from "lucide-react";
 import InputMessageExtends from "./InputMessageExtends";
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useChatRoom } from "@/context/ChatRoomProvider";
 import { set } from "date-fns";
 import { useToast } from "@/components/ui/use-toast";
 import api from "@/lib/api";
 import { getMemberInfo } from "@/lib/chat.utils";
+import MaxWidthWrapper from "@/components/wrappers/MaxWidthWrapper";
 
 type Props = {
     className?: string;
@@ -23,6 +24,17 @@ const InputMessage = ({ className }: Props) => {
     const { setting, room, loading, reply, members, setReply } = useChatRoom();
     const { toast } = useToast();
     const inputRef = useRef<HTMLTextAreaElement>(null);
+
+    useEffect(() => {
+        const resizeEvent = () => {
+            inputRef.current?.scrollIntoView({
+                behavior: "smooth",
+                block: "end",
+            });
+        };
+        window.addEventListener("resize", resizeEvent);
+        return () => window.removeEventListener("resize", resizeEvent);
+    }, []);
 
     const handleSendMessage = async () => {
         if (message.trim().length === 0) return;
@@ -56,7 +68,7 @@ const InputMessage = ({ className }: Props) => {
     const handleSendIcon = async () => {
         setPending(true);
         try {
-            const { data } = await api({
+            await api({
                 method: "POST",
                 url: "/chats/messages",
                 data: {
@@ -78,9 +90,9 @@ const InputMessage = ({ className }: Props) => {
     };
 
     return (
-        <div className={cn("border-t", className)}>
+        <div className={cn("border-t w-full relative", className)}>
             {reply && (
-                <div className="px-5 py-3 bg-muted backdrop-blur-md bg-opacity-35 group relative rounded-tl-md rounded-tr-md ">
+                <div className=" px-5 py-3 bg-muted backdrop-blur-md bg-opacity-35 group relative rounded-tl-md rounded-tr-md ">
                     <p className="font-semibold text-sm">
                         {getMemberInfo(reply.senderId, members)?.name}
                     </p>
@@ -121,7 +133,7 @@ const InputMessage = ({ className }: Props) => {
                     disabled={pending || loading}
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
-                    className="max-h-[200px] flex-1 p-4  pr-28 !border-none !outline-none"
+                    className="max-h-[200px] flex-1 p-4  pr-28 !border-none !outline-none placeholder:text-nowrap placeholder:line-clamp-1 placeholder:max-w-[80%]"
                     placeholder={room ? `Tin nhắn tới ${room?.name}` : ""}
                 ></TextArea>
                 {/*  */}

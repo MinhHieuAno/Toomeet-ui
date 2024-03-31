@@ -9,10 +9,10 @@ type Props = {};
 
 const page = ({ params }: { params: { id: string } }) => {
     const headerList = headers();
-    const isMobile = headerList.get("viewport") === "mobile";
+    const isDesktop = headerList.get("viewport") === "desktop";
     return (
         <SoketConnectWrapper>
-            {!isMobile && <ChatSidebar></ChatSidebar>}
+            {isDesktop && <ChatSidebar></ChatSidebar>}
             <Card className="col-span-8">
                 <ChatRoom chatId={parseInt(params.id)}></ChatRoom>
             </Card>

@@ -83,7 +83,9 @@ const ChatItem = ({ className, room: data }: Props) => {
                 <span className="w-3 h-3 bottom-0 right-0 rounded-full bg-green-500 absolute"></span>
             </div>
             <div className="flex-1 w-full flex flex-col justify-center items-start">
-                <h4 className="font-semibold text-lg">{room.name}</h4>
+                <h4 className="font-semibold text-lg  line-clamp-1 max-w-full">
+                    {room.name}
+                </h4>
                 {loading && <Skeleton className="w-8 h-3"></Skeleton>}
                 {!loading &&
                     (latestMessage ? (

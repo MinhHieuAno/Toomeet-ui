@@ -42,6 +42,7 @@ const LoginForm = () => {
             const data = response.data;
             if (data.token && data.account) {
                 auth.saveAuth({ ...data });
+                window.location.replace("/");
                 router.replace("/");
             } else {
                 router.push(

@@ -6,7 +6,7 @@ type Props = {
 };
 
 const layout = ({ children }: Props) => {
-    return <div className="col-span-8">{children}</div>;
+    return <div className="col-span-full">{children}</div>;
 };
 
 export default layout;

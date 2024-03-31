@@ -12,7 +12,7 @@ import { PostProvider } from "@/context/PostProvider";
 type Props = {};
 
 const NewsFeed = (props: Props) => {
-    const [posts, setPosts] = useState<Post[]>([...postsMock]);
+    const [posts, setPosts] = useState<Post[]>([]);
 
     const [page, setPage] = useState<Page>({
         last: false,

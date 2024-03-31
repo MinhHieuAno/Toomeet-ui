@@ -11,6 +11,7 @@ import { useViewport } from "@/context/ViewportProvider";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import ButtonBack from "@/components/button/ButtonBack";
 
 type Props = { className?: string };
 
@@ -28,14 +29,9 @@ const RoomHeader = ({ className }: Props) => {
         >
             <div className="h-full flex justify-start items-center gap-2">
                 {viewport === "mobile" && (
-                    <Link
-                        className={cn(
-                            buttonVariants({ variant: "ghost", size: "icon" })
-                        )}
-                        href="/messages"
-                    >
+                    <ButtonBack backUrl="/messages" variant="ghost" size="icon">
                         <ChevronLeft />
-                    </Link>
+                    </ButtonBack>
                 )}
                 <Avatar>
                     <AvatarImage src={room?.avatar} />
@@ -45,9 +41,11 @@ const RoomHeader = ({ className }: Props) => {
                 </Avatar>
                 <div className="h-full flex flex-col justify-center items-start">
                     {room?.name && !loading ? (
-                        <h4>{room?.name}</h4>
+                        <h4 className="text-nowrap line-clamp-1 text-ellipsis max-w-[150px]">
+                            {room?.name}
+                        </h4>
                     ) : (
-                        <Skeleton className="w-48 h-5"></Skeleton>
+                        <Skeleton className="w-32 md:w-48 h-5"></Skeleton>
                     )}
                     <div className="px-4 relative">
                         <span className="absolute top-[50%] -translate-y-[50%] left-0 bg-green-500 w-2 h-2 rounded-full"></span>

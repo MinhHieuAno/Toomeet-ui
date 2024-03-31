@@ -15,7 +15,7 @@ const PostItemLoading: FC<Props> = (props) => {
 
                     <div className="flex flex-col justify-start items-start gap-2">
                         <h4 className="text-lg md:text-xl font-medium">
-                            <Skeleton className="w-96 h-4 rounded-full"></Skeleton>
+                            <Skeleton className="w-64 md:w-96 h-4 rounded-full"></Skeleton>
                         </h4>
                         <div className="flex justify-start items-center gap-2">
                             <Skeleton className="w-36 h-4 rounded-full"></Skeleton>
@@ -28,12 +28,12 @@ const PostItemLoading: FC<Props> = (props) => {
                     <Skeleton className="w-[80%] h-4 rounded-full"></Skeleton>
                     <Skeleton className="w-[50%] h-4 rounded-full"></Skeleton>
                 </div>
-                <div className="w-full aspect-square gap-2 grid grid-cols-2 grid-rows-2">
+                {/* <div className="w-full aspect-square gap-2 grid grid-cols-2 grid-rows-2">
                     <Skeleton className="w-full aspect-square"></Skeleton>
                     <Skeleton className="w-full aspect-square"></Skeleton>
                     <Skeleton className="w-full aspect-square"></Skeleton>
                     <Skeleton className="w-full aspect-square"></Skeleton>
-                </div>
+                </div> */}
             </CardContent>
             <div className="">
                 <Separator className="my-3"></Separator>

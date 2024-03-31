@@ -69,7 +69,9 @@ const UpdateRoomName = (props: Props) => {
 
     return (
         <div className="flex justify-start items-center gap-2">
-            <h3 className="text-xl font-semibold text-center">{room?.name}</h3>
+            <h3 className="text-xl font-semibold text-center line-clamp-1 text-nowrap max-w-[200px]">
+                {room?.name}
+            </h3>
             <Dialog open={open} onOpenChange={(open) => setOpen(open)}>
                 <DialogTrigger>
                     <Button disabled={loading} size="icon" variant="ghost">

@@ -80,7 +80,7 @@ const MessageList = ({ className }: Props) => {
             id={`message-list-${room?.id}`}
             className={cn(
                 className,
-                "relative h-[300px] overflow-y-auto custom-scroll flex flex-col-reverse pb-[500px]"
+                "relative h-[300px] overflow-y-auto custom-scroll flex flex-col-reverse"
             )}
         >
             {!frist.current && messages.length === 0 && (
