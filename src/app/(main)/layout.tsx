@@ -1,4 +1,5 @@
 import Header from "@/components/header/Header";
+import { SocketProvider } from "@/context/SocketProvider";
 import { ReactNode } from "react";
 
 type Props = { children: ReactNode };

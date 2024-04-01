@@ -17,6 +17,8 @@ import MessageAction from "./MessageAction";
 import MessageIcon from "./MessageIcon";
 import MessageOptionBoard from "./MessageOptionBoard";
 import MessageReaction from "./MessageReaction";
+import Image from "@/components/ui/image";
+import { useSocket } from "@/context/SocketProvider";
 
 type Props = {
     isOwner?: boolean;
@@ -37,8 +39,24 @@ const Message = ({
         () => getMemberInfo(message.senderId, members),
         [message.senderId, members]
     );
+    const { getConnection } = useSocket();
 
     const messageRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        const client = getConnection();
+        if (!client?.connected) return;
+
+        const sub = client.subscribe(
+            `/message-recall/${message.id}`,
+            (message) => {
+                const data = JSON.parse(message.body);
+                setMessage(data);
+            }
+        );
+
+        return () => sub.unsubscribe();
+    }, [message.id]);
 
     useEffect(() => {
         if (!canScrollIntoView || !messageRef.current) return;
@@ -108,7 +126,7 @@ const Message = ({
                                 }
                             </p>
                             {message.reply.text && (
-                                <p className="text-pretty line-clamp-3">
+                                <p className="text-pretty line-clamp-3 text-sm md:text-base">
                                     {message.reply.text}
                                 </p>
                             )}
@@ -135,7 +153,7 @@ const Message = ({
                     className={cn(
                         "flex flex-col md:flex-row gap-2 items-center",
                         {
-                            "flex-row-reverse": isOwner,
+                            "md:flex-row-reverse": isOwner,
                         }
                     )}
                 >
@@ -167,12 +185,12 @@ const Message = ({
                                         {sender?.name}
                                     </p>
                                 )}
-                                <div className="my-3 max-w-full">
+                                <div className="my-2 md:my-3 max-w-full">
                                     {/* MESSAGE TEXT */}
                                     {message.text &&
                                         (message.text.match(urlRegex) ? (
                                             <Link
-                                                className="text-pretty hover:underline"
+                                                className="text-pretty hover:underline text-sm md:text-base"
                                                 href={
                                                     message.text.match(
                                                         urlRegex
@@ -183,10 +201,13 @@ const Message = ({
                                             </Link>
                                         ) : (
                                             <p
-                                                className={cn("text-pretty", {
-                                                    "select-none ":
-                                                        message.recall,
-                                                })}
+                                                className={cn(
+                                                    "text-pretty text-sm md:text-base",
+                                                    {
+                                                        "select-none ":
+                                                            message.recall,
+                                                    }
+                                                )}
                                             >
                                                 {message.text}
                                             </p>
@@ -202,13 +223,12 @@ const Message = ({
                                     )}
                                     {/* IMAGE */}
                                     {message.image && (
-                                        <div className="w-full aspect-square rounded-md flex justify-center items-center">
-                                            <img
-                                                className="w-full h-full rounded-[inherit] object-cover"
-                                                src={message.image}
-                                                alt={`message-image-${message.id}`}
-                                            />
-                                        </div>
+                                        <Image
+                                            className="w-full xl:w-96  aspect-square rounded-md flex justify-center items-center "
+                                            imgClassName="object-contain"
+                                            src={message.image}
+                                            alt={`message-image-${message.id}`}
+                                        />
                                     )}
                                 </div>
 
@@ -221,13 +241,12 @@ const Message = ({
                                             message.icon,
                                     })}
                                 >
-                                    {moment(message.timestamp).format("HH:MM")}
+                                    {moment(message.timestamp).format("HH:mm")}
                                 </p>
                             </div>
                         </ContextMenuTrigger>
                         <ContextMenuContent className="">
                             <MessageOptionBoard
-                                setMessage={setMessage}
                                 message={message}
                             ></MessageOptionBoard>
                         </ContextMenuContent>

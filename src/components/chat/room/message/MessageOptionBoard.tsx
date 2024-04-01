@@ -11,12 +11,8 @@ import CopyToClipboard from "react-copy-to-clipboard";
 
 type MessageOptionBoardProps = {
     message: MessageType;
-    setMessage: Dispatch<SetStateAction<MessageType>>;
 };
-const MessageOptionBoard: FC<MessageOptionBoardProps> = ({
-    message,
-    setMessage,
-}) => {
+const MessageOptionBoard: FC<MessageOptionBoardProps> = ({ message }) => {
     const { toast } = useToast();
     const { setReply, room } = useChatRoom();
     const handleCopy = () => {
@@ -33,7 +29,6 @@ const MessageOptionBoard: FC<MessageOptionBoardProps> = ({
                     r: room?.id,
                 },
             });
-            setMessage(data);
             toast({
                 title: "Thành công",
                 description: "Tin nhắn đã được thu hồi",

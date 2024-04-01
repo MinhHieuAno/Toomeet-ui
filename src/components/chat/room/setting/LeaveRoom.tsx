@@ -22,7 +22,7 @@ const LeaveRoom = (props: Props) => {
                 method: "DELETE",
                 url: `/chats/rooms/${room?.id}/leave`,
             });
-            router.replace("/messages");
+            router.replace("/messages/dashboard");
             window.location.reload();
         } catch (error: any) {
             toast({

@@ -39,6 +39,7 @@ const CreatChatRoomForm = (props: Props) => {
                     type: value.type,
                     member: value.members.map((member) => member.id),
                     color: value.color,
+                    icon: "LIKE",
                 },
             });
             router.push("/messages/room/" + data.id);
@@ -90,6 +91,7 @@ const CreatChatRoomForm = (props: Props) => {
                         </FormItem>
                     )}
                 />
+
                 <FormField
                     name="members"
                     control={form.control}

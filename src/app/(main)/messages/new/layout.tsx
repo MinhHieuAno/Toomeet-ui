@@ -20,7 +20,7 @@ const layout = ({ children }: Props) => {
                         <ButtonBack
                             variant="secondary"
                             size="icon"
-                            backUrl="/messages"
+                            backUrl="/messages/dashboard"
                         >
                             <ArrowLeft className="w-5 h-5"></ArrowLeft>
                         </ButtonBack>

@@ -32,7 +32,7 @@ const PostShare = (props: Props) => {
         <Dialog>
             <DialogTrigger asChild>
                 <PostActionItem>
-                    <span>
+                    <span className="hidden md:block">
                         <Share2 className="w-5 h-5" />
                     </span>
                     <span>Chia sẻ</span>

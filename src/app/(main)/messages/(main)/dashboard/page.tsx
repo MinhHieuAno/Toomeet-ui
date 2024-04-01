@@ -1,6 +1,5 @@
 import ChatSidebar from "@/components/chat/ChatSidebar";
 import { Card } from "@/components/ui/card";
-import SoketConnectWrapper from "@/components/wrappers/SoketConnectWrapper";
 import { headers } from "next/headers";
 
 type Props = {};
@@ -10,7 +9,7 @@ const page = (props: Props) => {
     const isMobile = headerList.get("viewport") === "mobile";
 
     return (
-        <SoketConnectWrapper>
+        <>
             <ChatSidebar></ChatSidebar>
             {!isMobile && (
                 <Card className="col-span-8">
@@ -28,7 +27,7 @@ const page = (props: Props) => {
                     </div>
                 </Card>
             )}
-        </SoketConnectWrapper>
+        </>
     );
 };
 export default page;

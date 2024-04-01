@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Dialog, DialogTrigger } from "@radix-ui/react-dialog";
-import React, { ReactNode } from "react";
+import React, { ReactNode, useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import ChooseMember from "../../ChooseMember";
@@ -37,6 +37,8 @@ const addMemberSchema = z.object({
 });
 
 const AddMemberDialog = ({ children }: Props) => {
+    const [loading, setLoading] = useState<boolean>(false);
+
     const form = useForm<z.infer<typeof addMemberSchema>>({
         resolver: zodResolver(addMemberSchema),
         defaultValues: { members: [] },
@@ -47,7 +49,8 @@ const AddMemberDialog = ({ children }: Props) => {
 
     const onSubmit = async (value: z.infer<typeof addMemberSchema>) => {
         try {
-            const { data } = await api({
+            setLoading(true);
+            await api({
                 method: "POST",
                 url: `/chats/rooms/${room?.id}/add-member`,
                 data: {
@@ -64,6 +67,7 @@ const AddMemberDialog = ({ children }: Props) => {
                 description: e,
             });
         }
+        setLoading(false);
     };
 
     return (
@@ -100,8 +104,12 @@ const AddMemberDialog = ({ children }: Props) => {
                                 </FormItem>
                             )}
                         />
-                        <Button className="w-full" type="submit">
-                            Xác nhận
+                        <Button
+                            disabled={loading}
+                            className="w-full"
+                            type="submit"
+                        >
+                            {loading ? "Đang xử lý" : "Xác nhận"}
                         </Button>
                     </form>
                 </Form>

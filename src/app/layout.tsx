@@ -1,13 +1,12 @@
-import Header from "@/components/header/Header";
+import { Toaster } from "@/components/ui/toaster";
+import { AuthProvider } from "@/context/AuthProvider";
+import { ThemeProvider } from "@/context/ThemeProvider";
+import { ViewportProvider } from "@/context/ViewportProvider";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import "./globals.css";
-import { ThemeProvider } from "@/context/ThemeProvider";
-import { AuthProvider } from "@/context/AuthProvider";
-import { Toaster } from "@/components/ui/toaster";
-import { SocketProvider } from "@/context/SocketProvider";
-import { ViewportProvider } from "@/context/ViewportProvider";
 import { headers } from "next/headers";
+import "./globals.css";
+import { SocketProvider } from "@/context/SocketProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 

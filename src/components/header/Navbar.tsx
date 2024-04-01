@@ -1,25 +1,16 @@
 "use client";
-import { cn } from "@/lib/utils";
-import {
-    Bell,
-    Home,
-    MessageCircle,
-    Search,
-    Store,
-    UserRoundPlus,
-    Users,
-} from "lucide-react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import React, { ReactNode } from "react";
-import { buttonVariants } from "../ui/button";
 import {
     Tooltip,
     TooltipContent,
     TooltipProvider,
     TooltipTrigger,
 } from "@/components/ui/tooltip";
-import GlobalSearch from "../search/GlobalSearch";
+import { cn } from "@/lib/utils";
+import { Home, Search, Store, UserRound, Users } from "lucide-react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { ReactNode } from "react";
+import { buttonVariants } from "../ui/button";
 
 type Props = {
     className?: string;
@@ -31,8 +22,8 @@ const Navbar = ({ className }: Props) => {
             <NavItem label="Trang chủ" to="/">
                 <Home />
             </NavItem>
-            <NavItem label="Bạn bè" to="/friends">
-                <UserRoundPlus />
+            <NavItem label="Bạn bè" to="/friends/suggestions">
+                <UserRound />
             </NavItem>
 
             <NavItem className="flex xl:hidden" label="Tìm kiếm" to="/search">

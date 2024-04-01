@@ -73,7 +73,7 @@ const JoinRoomCard = ({ token, roomAvatar, roomName, roomId }: Props) => {
                 </CardHeader>
                 <CardFooter className="flex justify-between items-center gap-2">
                     <Link
-                        href={"/messages"}
+                        href={"/messages/dashboard"}
                         className={cn(
                             "flex-1",
                             buttonVariants({ variant: "secondary" })

@@ -29,7 +29,11 @@ const RoomHeader = ({ className }: Props) => {
         >
             <div className="h-full flex justify-start items-center gap-2">
                 {viewport === "mobile" && (
-                    <ButtonBack backUrl="/messages" variant="ghost" size="icon">
+                    <ButtonBack
+                        backUrl="/messages/dashboard"
+                        variant="ghost"
+                        size="icon"
+                    >
                         <ChevronLeft />
                     </ButtonBack>
                 )}

@@ -39,7 +39,7 @@ const FriendSuggestion = (props: Props) => {
             const response = await api("/users/suggestions", {
                 params: {
                     p: page.index + 1,
-                    l: 8,
+                    l: 20,
                 },
             });
             const data = response.data;
@@ -65,14 +65,14 @@ const FriendSuggestion = (props: Props) => {
     };
 
     return (
-        <div className="w-full h-full ">
+        <div className="w-full h-full mb-32">
             {/* {!loading && friends?.length <= 0 && (
                 <div className="w-full h-full flex justify-center items-center flex-col">
                     <h3 className="text-lg">Không có đề xuất nào</h3>
                 </div>
             )} */}
             <InfiniteScroll
-                className="w-full h-full grid gap-5 grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 p-2"
+                className="w-full h-full grid gap-2 md:gap-5 grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
                 dataLength={friends.length}
                 next={fetch}
                 hasMore={!page.last}

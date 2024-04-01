@@ -8,6 +8,7 @@ import { ReactionType } from "@/lib/reaction.utils";
 import { cn } from "@/lib/utils";
 import { ThumbsUp } from "lucide-react";
 import PostActionItem from "./PostActionItem";
+import { useViewport } from "@/context/ViewportProvider";
 
 type Props = {
     postId: string;
@@ -18,6 +19,7 @@ const PostReaction = ({ postId, initReaction }: Props) => {
     const { setPost } = usePost();
     const { account } = useAuth();
     const { toast } = useToast();
+    const { viewport } = useViewport();
 
     const handleReaction = async (emoji: number) => {
         if (account === null || !account.user) return;
@@ -65,6 +67,7 @@ const PostReaction = ({ postId, initReaction }: Props) => {
             initialReaction={initReaction}
             onActiveReaction={handleReaction}
             onDeactiveReaction={handleRemoveReaction}
+            size={viewport === "mobile" ? "md" : "lg"}
         >
             {(activeReaction, onToggleReaction) => (
                 <PostActionItem

@@ -43,6 +43,17 @@ const CommentInput = ({ parent, setComments }: Props) => {
         }
     }, []);
 
+    useEffect(() => {
+        const resizeEvent = () => {
+            inputRef.current?.scrollIntoView({
+                behavior: "smooth",
+                block: "end",
+            });
+        };
+        window.addEventListener("resize", resizeEvent);
+        return () => window.removeEventListener("resize", resizeEvent);
+    }, []);
+
     const handleSubmit = async (value: z.infer<typeof commentSchema>) => {
         try {
             setLoading(true);
@@ -68,18 +79,18 @@ const CommentInput = ({ parent, setComments }: Props) => {
         <Form {...form}>
             <form
                 onSubmit={form.handleSubmit(handleSubmit)}
-                className="my-3 px-3 w-full flex justify-between items-center  gap-2"
+                className="my-3 w-full flex justify-between items-center  gap-2"
             >
                 <FormField
                     control={form.control}
                     name="content"
                     render={({ field }) => (
-                        <FormItem className="w-full ">
+                        <FormItem className="w-full h-full flex justify-start items-center">
                             <FormControl {...field}>
                                 <TextArea
                                     ref={inputRef}
                                     placeholder="Nhập bình luận của bạn"
-                                    className="max-h-16 w-full py-2"
+                                    className="max-h-24 h-full w-full py-2"
                                 ></TextArea>
                             </FormControl>
                         </FormItem>

@@ -5,11 +5,13 @@ import GlobalSearch from "../search/GlobalSearch";
 import MaxWidthWrapper from "../wrappers/MaxWidthWrapper";
 import HeaderAction from "./HeaderAction";
 import Navbar from "./Navbar";
+import { useAuth } from "@/context/AuthProvider";
 
 type Props = {};
 
 const Header = (props: Props) => {
     const { setTheme, theme } = useTheme();
+    const { account } = useAuth();
     return (
         <>
             {/* <div className="absolute z-[1000] top-3 left-3 bg-primary px-5 py-4 rounded-md text-white font-semibold">
@@ -26,7 +28,9 @@ const Header = (props: Props) => {
                     <Logo className="p-5 col-start-1 col-end-2"></Logo>
                     <GlobalSearch className="hidden md:flex col-start-2 col-end-4"></GlobalSearch>
                     <Navbar className="hidden md:flex bottom-0 col-start-4 col-end-10 mx-0 2xl:mx-16"></Navbar>
-                    <HeaderAction className=" col-start-10 col-end-13"></HeaderAction>
+                    {account && account.user && (
+                        <HeaderAction className=" col-start-10 col-end-13"></HeaderAction>
+                    )}
                 </MaxWidthWrapper>
             </header>
         </>

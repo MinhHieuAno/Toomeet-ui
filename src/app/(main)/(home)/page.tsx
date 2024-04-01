@@ -1,19 +1,39 @@
 "use client";
 import Navbar from "@/components/header/Navbar";
+import Notify from "@/components/notify/Notify";
 import NewsFeed from "@/components/post/NewsFeed";
 import CreatePost from "@/components/post/create/CreatePost";
-import { useSocket } from "@/context/SocketProvider";
-import { useEffect } from "react";
 
 const Home = () => {
-    const { connect, disconnect } = useSocket();
-    useEffect(() => {
-        connect();
+    // useEffect(() => {
+    //     const visibilitychangeEvent = () => {
+    //         if (document.visibilityState === "hidden") {
+    //             new Notification("Quay lại đây bạn ơi", {
+    //                 body: "xin chao",
+    //                 icon: "/logo.svg",
+    //                 tag: "come-back",
+    //             });
+    //         }
+    //     };
+    //     document.addEventListener("visibilitychange", visibilitychangeEvent);
 
-        return () => {
-            disconnect();
-        };
-    }, []);
+    //     return () =>
+    //         document.removeEventListener(
+    //             "visibilitychange",
+    //             visibilitychangeEvent
+    //         );
+    // }, []);
+
+    const handleShowNotify = () => {
+        Notification.requestPermission().then((permissions) => {
+            if (permissions === "granted") {
+                new Notification("Hello world", {
+                    body: "xin chao",
+                    icon: "/logo.svg",
+                });
+            }
+        });
+    };
 
     return (
         <div className="">

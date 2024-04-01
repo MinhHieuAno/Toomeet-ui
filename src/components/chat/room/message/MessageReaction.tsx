@@ -21,27 +21,31 @@ const MessageReaction = ({ message, isOwner }: Props) => {
     );
     const { room } = useChatRoom();
     const { toast } = useToast();
-    const { client } = useSocket();
+    const { getConnection } = useSocket();
 
     useEffect(() => {
+        const client = getConnection();
         if (!client?.connected) return;
 
-        client.subscribe(`/message-reaction/${message.id}`, (message) => {
-            const data = JSON.parse(message.body);
-            const reaction: MessageReactionType = {
-                memberId: data.memberId,
-                timestamp: data.timestamp,
-                type: data.reactionType,
-            };
-            if (data.type === "CREATE") {
-                addReaction(reaction);
-            } else if (data.type === "REMOVE") {
-                removeReaction(reaction);
+        const sub = client.subscribe(
+            `/message-reaction/${message.id}`,
+            (message) => {
+                const data = JSON.parse(message.body);
+                const reaction: MessageReactionType = {
+                    memberId: data.memberId,
+                    timestamp: data.timestamp,
+                    type: data.reactionType,
+                };
+                if (data.type === "CREATE") {
+                    addReaction(reaction);
+                } else if (data.type === "REMOVE") {
+                    removeReaction(reaction);
+                }
             }
-        });
+        );
 
-        return () => client.unsubscribe(`/message-reaction/${message.id}`);
-    }, [client, message.id, client?.connected]);
+        return () => sub.unsubscribe();
+    }, [message.id]);
 
     const handleReaction = async (value: number) => {
         try {
@@ -107,7 +111,7 @@ const MessageReaction = ({ message, isOwner }: Props) => {
                                     reaction.type,
                             })}
                         >
-                            <div className="hidden md:flex w-5 h-5  justify-center items-center">
+                            <div className="flex w-5 h-5  justify-center items-center">
                                 <img
                                     className="object-cover w-full h-full pointer-events-none"
                                     src={`/reactions/${reaction.type.toLowerCase()}.png`}
@@ -151,7 +155,7 @@ const MessageReaction = ({ message, isOwner }: Props) => {
                                         <img
                                             className="object-cover w-full h-full pointer-events-none"
                                             src={`/reactions/${activeReaction?.image}`}
-                                            alt=""
+                                            alt="reaction-icon"
                                         />
                                     ) : (
                                         <ThumbsUp className="w-4 h-4" />

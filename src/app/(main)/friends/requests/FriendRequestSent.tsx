@@ -52,15 +52,17 @@ const FriendRequestSent = (props: Props) => {
 
     return (
         <div className="w-full h-full">
-            <h2 className="text-2xl font-bold text-muted-foreground mb-5">
+            <h2 className="text-xl md:text-2xl font-bold text-muted-foreground mb-5">
                 Yêu cầu đã gửi
             </h2>
             {!loading && friends?.length <= 0 && (
                 <div className="w-full h-full flex justify-center items-center flex-col">
-                    <h3 className="text-lg">Bạn chưa gửi yêu cầu nào</h3>
+                    <h3 className="text-sm md:text-lg">
+                        Bạn chưa gửi yêu cầu nào
+                    </h3>
                 </div>
             )}
-            <div className="w-full h-full grid gap-5 grid-cols-2 sm:grid-cols-3 lg:grid-cols-4">
+            <div className="w-full h-full grid gap-2 md:gap-5 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
                 {!loading &&
                     friends.map(({ friend, requestId }, index) => (
                         <FriendCard data={friend} key={index}>

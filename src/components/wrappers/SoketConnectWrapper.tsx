@@ -7,15 +7,15 @@ type Props = {
 };
 
 const SoketConnectWrapper = ({ children }: Props) => {
-    const { connect, disconnect } = useSocket();
+    // const { e, disconnect } = useSocket();
 
-    useEffect(() => {
-        connect();
+    // useEffect(() => {
+    //     connect(1);
 
-        return () => {
-            disconnect();
-        };
-    }, []);
+    //     return () => {
+    //         disconnect();
+    //     };
+    // }, []);
     return <>{children}</>;
 };
 

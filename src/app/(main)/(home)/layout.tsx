@@ -6,6 +6,7 @@ import NewEven from "../../modules/home/NewEven";
 import RecommendFriend from "../../modules/home/RecommendFriend";
 import RecommendGroup from "../../modules/home/RecommendGroup";
 import FriendOnlineList from "./FriendOnlineList";
+import { SocketProvider } from "@/context/SocketProvider";
 
 type Props = {
     children: ReactNode;

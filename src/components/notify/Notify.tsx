@@ -7,7 +7,10 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { NotifyTag, NotifyType } from "@/lib/notify.utils";
+import { useAuth } from "@/context/AuthProvider";
+import { useSocket } from "@/context/SocketProvider";
+import api from "@/lib/api";
+import { NotifyType } from "@/lib/notify.utils";
 import { cn } from "@/lib/utils";
 import {
     BellIcon,
@@ -19,9 +22,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Button, buttonVariants } from "../ui/button";
 import NotifyItem from "./NotifyItem";
-import api from "@/lib/api";
-import { useSocket } from "@/context/SocketProvider";
-import { useAuth } from "@/context/AuthProvider";
+import { usePathname } from "next/navigation";
 
 type Props = {};
 
@@ -86,22 +87,10 @@ type Props = {};
 // ];
 
 const Notify = (props: Props) => {
-    const [hasNotify, setHasNotify] = useState<boolean>(true);
+    const [hasNotify, setHasNotify] = useState<boolean>(false);
     const [notifications, setNotifications] = useState<NotifyType[]>([]);
     const { account } = useAuth();
-    const { client } = useSocket();
-
-    useEffect(() => {
-        if (!client || !client.connected || !account || !account.user) return;
-        client.subscribe(`/notifications/${account.user.id}`, (message) => {
-            setHasNotify(true);
-            const notify = JSON.parse(message.body);
-            setNotifications((notifications) => [
-                { ...notify, tag: notify.type },
-                ...notifications,
-            ]);
-        });
-    }, [client, client?.connected, account]);
+    const { getConnection } = useSocket();
 
     useEffect(() => {
         (async () => {
@@ -124,6 +113,24 @@ const Notify = (props: Props) => {
         })();
     }, []);
 
+    useEffect(() => {
+        const client = getConnection();
+        if (!client || !client.connected || !account || !account.user) return;
+        const subscription = client.subscribe(
+            `/notifications/${account.user.id}`,
+            (message) => {
+                const notify = JSON.parse(message.body);
+                // alert("has notify");
+                setNotifications((notifications) => [
+                    { ...notify, tag: notify.type },
+                    ...notifications,
+                ]);
+                setHasNotify(true);
+            }
+        );
+        return () => subscription.unsubscribe();
+    }, [account, account?.user, account?.user?.id]);
+
     return (
         <DropdownMenu onOpenChange={(open) => open && setHasNotify(false)}>
             <DropdownMenuTrigger asChild>
@@ -142,6 +149,12 @@ const Notify = (props: Props) => {
                     <h4 className="text-base lg:text-xl font-semibold">
                         Thông báo
                     </h4>
+                    <Button
+                        onClick={() => setNotifications([])}
+                        variant="ghost"
+                    >
+                        Xóa tất cả
+                    </Button>
                     <NotifyMoreAction></NotifyMoreAction>
                 </div>
                 <DropdownMenuSeparator />

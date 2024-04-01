@@ -26,7 +26,7 @@ const MessageList = ({ className }: Props) => {
     });
     const { toast } = useToast();
     const { account } = useAuth();
-    const { client } = useSocket();
+    const { getConnection } = useSocket();
     const frist = useRef<boolean>(true);
     const { room, setting, loading } = useChatRoom();
 
@@ -39,13 +39,14 @@ const MessageList = ({ className }: Props) => {
     }, [room]);
 
     useEffect(() => {
+        const client = getConnection();
         if (!client || !client.connected || !account || !account.user) return;
-        client.subscribe(`/messages/${room?.id}`, (message) => {
+        const sub = client.subscribe(`/messages/${room?.id}`, (message) => {
             const newMessage = JSON.parse(message.body);
             setUnreadMessages((messages) => [...messages, newMessage]);
         });
-        return () => client.unsubscribe(`/messages/${room?.id}`);
-    }, [client, client?.connected, account, room?.id]);
+        return () => sub.unsubscribe();
+    }, [account, room?.id]);
 
     const fetch = async () => {
         try {
@@ -88,7 +89,7 @@ const MessageList = ({ className }: Props) => {
                     Hãy bắt đầu cuộc trò chuyện
                 </div>
             )}
-            <div className="p-5  gap-5 flex flex-col">
+            <div className="p-4 md:p-5  gap-2 md:gap-5 flex flex-col">
                 {unReadMessages.map((message, index) => (
                     <Message
                         canScrollIntoView
@@ -113,7 +114,7 @@ const MessageList = ({ className }: Props) => {
                         ></span>
                     </div>
                 }
-                className="p-5 gap-5 flex flex-col-reverse"
+                className="p-4 md:p-5 gap-2 md:gap-5 flex flex-col-reverse"
                 scrollableTarget={`message-list-${room?.id}`}
                 inverse
             >

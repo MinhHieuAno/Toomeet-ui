@@ -1,12 +1,13 @@
 "use client";
-import Header from "@/components/header/Header";
+import Navbar from "@/components/header/Navbar";
 import SideBarItem from "@/components/sidebar/SideBarItem";
 import Sidebar from "@/components/sidebar/Sidebar";
 import SidebarBlock from "@/components/sidebar/SidebarBlock";
-import { Toaster } from "@/components/ui/toaster";
+import { Button, buttonVariants } from "@/components/ui/button";
 import MaxWidthWrapper from "@/components/wrappers/MaxWidthWrapper";
-import { SocketProvider, useSocket } from "@/context/SocketProvider";
-import { Metadata } from "next";
+import { useSocket } from "@/context/SocketProvider";
+import { cn } from "@/lib/utils";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ReactNode, useEffect } from "react";
 
@@ -16,6 +17,10 @@ type Props = {
 
 const links: { link: string; name: string }[] = [
     {
+        link: "/friends/suggestions",
+        name: "Gợi ý",
+    },
+    {
         link: "/friends",
         name: "Tất cả bạn bè",
     },
@@ -23,24 +28,10 @@ const links: { link: string; name: string }[] = [
         link: "/friends/requests",
         name: "Lời mời kết bạn",
     },
-    {
-        link: "/friends/suggestions",
-        name: "Gợi ý",
-    },
 ];
 
 const layout = ({ children }: Props) => {
     const pathname = usePathname();
-
-    const { connect, disconnect } = useSocket();
-
-    useEffect(() => {
-        connect();
-
-        return () => {
-            disconnect();
-        };
-    }, []);
 
     return (
         <MaxWidthWrapper className="grid md:grid-cols-12 gap-2">
@@ -58,7 +49,27 @@ const layout = ({ children }: Props) => {
                     ))}
                 </SidebarBlock>
             </Sidebar>
-            <div className="md:col-start-4 md:col-end-13 mt-8 ">{children}</div>
+            <div className="sticky left-0 w-full max-w-[100svw] overflow-auto top-[72px] z-40  flex md:hidden justify-start items-center gap-2 bg-white dark:bg-slate-900 px-3 py-4">
+                {links.map(({ link, name }, index) => (
+                    <Link
+                        className={cn(
+                            "text-sm",
+                            buttonVariants({
+                                variant:
+                                    pathname === link ? "default" : "secondary",
+                            })
+                        )}
+                        href={link}
+                        key={index}
+                    >
+                        {name}
+                    </Link>
+                ))}
+            </div>
+            <div className="md:col-start-4 md:col-end-13 md:mt-8 ">
+                {children}
+            </div>
+            <Navbar className="fixed md:hidden -bottom-[8px] p-3 pb-5 w-svw left-[50%] -translate-x-[50%] dark:bg-slate-900 z-50 bg-white da col-start-4 col-end-10 mx-0 2xl:mx-16 shadow-xl border-t"></Navbar>
         </MaxWidthWrapper>
     );
 };

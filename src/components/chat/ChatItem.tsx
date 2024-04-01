@@ -24,7 +24,7 @@ const ChatItem = ({ className, room: data }: Props) => {
         null
     );
 
-    const { client } = useSocket();
+    const { getConnection } = useSocket();
     const { account } = useAuth();
 
     useEffect(() => {
@@ -41,10 +41,12 @@ const ChatItem = ({ className, room: data }: Props) => {
     }, []);
 
     useEffect(() => {
+        const client = getConnection();
         if (!client || !client.connected || !account || !account.user) return;
+
         client.subscribe(`/messages/${room.id}`, (message) => {
             const newMessage = JSON.parse(message.body);
-            console.log("newMessage = " + JSON.stringify(newMessage));
+            setLatestMessage(newMessage);
         });
 
         client.subscribe(`/chat-room/${room.id}`, (message) => {
@@ -59,7 +61,7 @@ const ChatItem = ({ className, room: data }: Props) => {
         return () => {
             client.unsubscribe(`/messages/${room.id}`);
         };
-    }, [client, client?.connected, account, room.id]);
+    }, [account, room.id]);
 
     return (
         <Link

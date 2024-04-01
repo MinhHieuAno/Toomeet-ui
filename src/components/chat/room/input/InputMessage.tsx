@@ -1,16 +1,14 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import TextArea from "@/components/ui/text-area";
-import { cn } from "@/lib/utils";
-import { Heart, Laugh, SendHorizontal, ThumbsUp, X } from "lucide-react";
-import InputMessageExtends from "./InputMessageExtends";
-import { useEffect, useMemo, useRef, useState } from "react";
-import { useChatRoom } from "@/context/ChatRoomProvider";
-import { set } from "date-fns";
 import { useToast } from "@/components/ui/use-toast";
+import { useChatRoom } from "@/context/ChatRoomProvider";
 import api from "@/lib/api";
 import { getMemberInfo } from "@/lib/chat.utils";
-import MaxWidthWrapper from "@/components/wrappers/MaxWidthWrapper";
+import { cn } from "@/lib/utils";
+import { Heart, Laugh, SendHorizontal, ThumbsUp, X } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import InputMessageExtends from "./InputMessageExtends";
 
 type Props = {
     className?: string;

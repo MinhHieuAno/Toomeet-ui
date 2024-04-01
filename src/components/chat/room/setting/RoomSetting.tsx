@@ -3,33 +3,22 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { useChatRoom } from "@/context/ChatRoomProvider";
-import {
-    Bell,
-    Palette,
-    Settings,
-    Trash,
-    UserRoundPlus,
-    Users,
-} from "lucide-react";
+import { Bell, Palette, Settings, UserRoundPlus, Users } from "lucide-react";
 import RoomSettingItem from "./RoomSettingItem";
 
 import { useToast } from "@/components/ui/use-toast";
 import AddMemberDialog from "./AddMemberDialog";
+import DeleteMessage from "./DeleteMessage";
+import LeaveRoom from "./LeaveRoom";
+import ThemeSettingDialog from "./ThemeSettingDialog";
 import UpdateAvtar from "./UpdateAvtar";
 import UpdateRoomName from "./UpdateRoomName";
 import ViewInviteLinkDialog from "./ViewInviteLinkDialog";
 import ViewMemberDialog from "./ViewMemberDialog";
-import api from "@/lib/api";
-import LeaveRoom from "./LeaveRoom";
-import ThemeSettingDialog from "./ThemeSettingDialog";
-import DeleteMessage from "./DeleteMessage";
 
 type Props = {};
 
 const RoomSetting = (props: Props) => {
-    const { room, setting, members } = useChatRoom();
-    const { toast } = useToast();
-
     return (
         <div className="space-y-5">
             <SheetHeader>

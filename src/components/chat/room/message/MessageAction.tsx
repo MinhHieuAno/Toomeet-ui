@@ -66,10 +66,7 @@ const MessageAction: FC<MessageActionProps> = ({
                     </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
-                    <MessageOptionBoard
-                        setMessage={setMessage}
-                        message={message}
-                    ></MessageOptionBoard>
+                    <MessageOptionBoard message={message}></MessageOptionBoard>
                 </DropdownMenuContent>
             </DropdownMenu>
         </div>

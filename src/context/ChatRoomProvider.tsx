@@ -45,7 +45,7 @@ const ChatRoomProvider: React.FC<ChatRoomProviderProps> = ({
 
     const router = useRouter();
     const { toast } = useToast();
-    const { client } = useSocket();
+    const { getConnection } = useSocket();
 
     /** LOAD DEFAULT SETTINGS */
     useEffect(() => {
@@ -74,63 +74,70 @@ const ChatRoomProvider: React.FC<ChatRoomProviderProps> = ({
                     description: error,
                 });
                 console.log(error);
-                router.replace("/messages");
+                router.replace("/messages/dashboard");
             }
             setLoading(false);
         })();
     }, []);
 
     useEffect(() => {
+        const client = getConnection();
         if (!client?.connected) return;
 
-        client.subscribe(`/chat-room/${room?.id}`, (message) => {
-            const updatedRoom = JSON.parse(message.body);
-            setRoom((room) => {
-                if (room === null) return null;
-                return {
-                    ...room,
-                    avatar: updatedRoom.avatar,
-                    name: updatedRoom.name,
-                };
-            });
-            setSetting((setting) => {
-                if (setting === null) return null;
-                return {
-                    ...setting,
-                    color: updatedRoom.color,
-                    icon: updatedRoom.icon,
-                };
-            });
-        });
-
-        client.subscribe(`/chat-members/${room?.id}`, (message) => {
-            const data = JSON.parse(message.body);
-            if (!data.member) return;
-
-            let newMembers = members;
-
-            if (data.type === "JOIN") {
-                setMembers((members) => [...members, data.member]);
-                toast({
-                    title: "Thông báo: ",
-                    description: `${data?.member?.name} đã tham gia phòng`,
+        const updateRoomSub = client.subscribe(
+            `/chat-room/${room?.id}`,
+            (message) => {
+                const updatedRoom = JSON.parse(message.body);
+                setRoom((room) => {
+                    if (room === null) return null;
+                    return {
+                        ...room,
+                        avatar: updatedRoom.avatar,
+                        name: updatedRoom.name,
+                    };
                 });
-            } else if (data.type === "LEAVE") {
-                setMembers((members) =>
-                    members.filter((member) => member.id !== data.member.id)
-                );
-                toast({
-                    title: "Thông báo: ",
-                    description: `${data?.member?.name} đã rời khỏi phòng`,
+                setSetting((setting) => {
+                    if (setting === null) return null;
+                    return {
+                        ...setting,
+                        color: updatedRoom.color,
+                        icon: updatedRoom.icon,
+                    };
                 });
             }
-        });
+        );
+
+        const memberShipSub = client.subscribe(
+            `/chat-members/${room?.id}`,
+            (message) => {
+                const data = JSON.parse(message.body);
+                if (!data.member) return;
+
+                let newMembers = members;
+
+                if (data.type === "JOIN") {
+                    setMembers((members) => [...members, data.member]);
+                    toast({
+                        title: "Thông báo: ",
+                        description: `${data?.member?.name} đã tham gia phòng`,
+                    });
+                } else if (data.type === "LEAVE") {
+                    setMembers((members) =>
+                        members.filter((member) => member.id !== data.member.id)
+                    );
+                    toast({
+                        title: "Thông báo: ",
+                        description: `${data?.member?.name} đã rời khỏi phòng`,
+                    });
+                }
+            }
+        );
 
         return () => {
-            client.unsubscribe(`/chat-room/${room?.id}`);
-            client.unsubscribe(`/chat-members/${room?.id}`);
+            updateRoomSub.unsubscribe();
+            memberShipSub.unsubscribe();
         };
-    }, [room?.id, client, client?.connected]);
+    }, [room?.id]);
 
     const values = {
         room,

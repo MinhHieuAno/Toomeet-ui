@@ -1,7 +1,7 @@
+import "@/app/reaction.css";
 import MaxWidthWrapper from "@/components/wrappers/MaxWidthWrapper";
 import { Metadata } from "next";
 import { ReactNode } from "react";
-import "@/app/reaction.css";
 
 export const metadata: Metadata = {
     title: "Trò chuyện",

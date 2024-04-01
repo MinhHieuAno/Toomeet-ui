@@ -65,9 +65,9 @@ const AllFriend = (props: Props) => {
     };
 
     return (
-        <div className="w-full h-full" id="all-friend-container">
+        <div className="w-full h-full mb-28" id="all-friend-container">
             <InfiniteScroll
-                className="w-full h-full grid gap-5 grid-cols-2 sm:grid-cols-3 lg:grid-cols-4"
+                className="w-full h-full grid gap-2 md:gap-5 grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
                 dataLength={friends.length}
                 next={fetch}
                 hasMore={!page.last}

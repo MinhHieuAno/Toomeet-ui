@@ -45,9 +45,10 @@ const LoginForm = () => {
                 window.location.replace("/");
                 router.replace("/");
             } else {
-                router.push(
-                    `/auth/validation?o=${data.otpId}&a=${data.accountId}&2fa=true`
-                );
+                // router.push(
+                //     `/auth/validation?o=${data.otpId}&a=${data.accountId}&2fa=true`
+                // );
+                alert(JSON.stringify(data));
             }
         } catch (error: any) {
             for (const key in error) {
