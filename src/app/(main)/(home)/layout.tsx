@@ -37,7 +37,8 @@ const layout: FC<Props> = ({ children }) => {
                     <div className="w-full flex justify-center items-center h-[180px]">
                         <img
                             className="w-full h-full object-cover"
-                            src="https://i.pinimg.com/originals/c9/e1/c6/c9e1c63a11edd6c12ad7576862e41d74.gif"
+                            // src="https://i.pinimg.com/originals/c9/e1/c6/c9e1c63a11edd6c12ad7576862e41d74.gif"
+                            src="https://xt5wystaxlzt5rc5-55655825511.shopifypreview.com/cdn/shop/files/TK88.gif?v=1700896884&width=1946"
                             alt=""
                         />
                     </div>

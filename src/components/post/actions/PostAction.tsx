@@ -9,13 +9,16 @@ import PostComment from "./comment/PostComment";
 type Props = {};
 
 const PostAction = ({}: Props) => {
-    const { post } = usePost();
+    const { post, setShowComment } = usePost();
 
     return (
         <div className="">
             <div className="w-full flex justify-between items-center font-semibold text-xs text-muted-foreground">
                 <span className="">{post.reactionCount} lượt thích</span>
-                <span className="hover:underline hover:text-primary cursor-pointer">
+                <span
+                    onClick={() => setShowComment(true)}
+                    className="hover:underline hover:text-primary cursor-pointer"
+                >
                     {post.commentCount} bình luận
                 </span>
             </div>
@@ -24,9 +27,10 @@ const PostAction = ({}: Props) => {
                 <PostReaction
                     postId={post.id}
                     initReaction={
-                        (post.emoji != -1
-                            ? post.emoji
-                            : undefined) as ReactionType
+                        3
+                        // (post.emoji != -1
+                        //     ? post.emoji
+                        //     : undefined) as ReactionType
                     }
                 ></PostReaction>
                 <PostComment></PostComment>

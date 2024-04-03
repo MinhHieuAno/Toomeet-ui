@@ -46,7 +46,7 @@ const Gallery = ({
                 return (
                     <div
                         key={index}
-                        className="relative h-full cursor-pointer  rounded-lg"
+                        className="relative h-full cursor-pointer  rounded-lg overflow-hidden"
                         onClick={() => openLightbox(index)}
                     >
                         <img

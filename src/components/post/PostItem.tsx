@@ -22,7 +22,7 @@ import {
     TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { Post, getPrivacyData } from "@/lib/post.utils";
-import { getUsername } from "@/lib/utils";
+import { cn, getUsername } from "@/lib/utils";
 import {
     BellRing,
     Bookmark,
@@ -36,11 +36,14 @@ import Gallery from "../ui/gallery";
 import { Separator } from "../ui/separator";
 import PostAction from "./actions/PostAction";
 import { usePost } from "@/context/PostProvider";
+import CommentList from "./actions/comment/CommentList";
+import CommentInput from "./actions/comment/CommentInput";
+import { CommentProvider } from "@/context/CommentProvider";
 
 type Props = {};
 moment.locale("vi");
 const PostItem: FC<Props> = (props) => {
-    const { post } = usePost();
+    const { post, showComment } = usePost();
     return (
         <Card className="my-5 mx-2 p-5">
             <div className="flex justify-between items-start">
@@ -77,7 +80,7 @@ const PostItem: FC<Props> = (props) => {
                         </HoverCardContent>
                     </HoverCard>
                     <div className="flex flex-col justify-center items-start">
-                        <h4 className="text-lg md:text-xl font-medium">
+                        <h4 className="text-base md:text-lg line-clamp-1 max-w-full font-medium">
                             {post.author.name}
                         </h4>
                         <div className="flex justify-start items-center gap-2">
@@ -130,16 +133,42 @@ const PostItem: FC<Props> = (props) => {
                 {post.content !== null && (
                     <ToggleContent content={post.content} />
                 )}
+
                 {post.images !== null && (
-                    <Gallery
-                        className="w-full p-2 md:p-8"
-                        images={post.images}
-                        row={2}
-                    ></Gallery>
+                    <div
+                        className={cn(
+                            "flex justify-center items-center  overflow-hidden",
+                            {
+                                ["h-[500px] max-h-[500px] overflow-hidden"]:
+                                    post.images.length > 0,
+                            }
+                        )}
+                    >
+                        <Gallery
+                            className="w-full h-full p-2 md:p-8"
+                            images={post.images}
+                            row={2}
+                        ></Gallery>
+                    </div>
                 )}
             </CardContent>
+            <CommentProvider>
+                <PostAction></PostAction>
+                {showComment && (
+                    <div className="mt-2">
+                        <Separator></Separator>
+                        {post.commentCount > 0 ? (
+                            <CommentList></CommentList>
+                        ) : (
+                            <div className="h-[30svh] w-full flex justify-center items-center text-muted-foreground text-sm md:text-base">
+                                Hãy là người đầu tiên bình luận bài viết này
+                            </div>
+                        )}
 
-            <PostAction></PostAction>
+                        <CommentInput></CommentInput>
+                    </div>
+                )}
+            </CommentProvider>
         </Card>
     );
 };
@@ -154,6 +183,8 @@ const ToggleContent = ({
     const [open, setOpen] = useState<boolean>(
         () => content.length <= maxLength
     );
+
+    if (content === "null") return <></>;
 
     return (
         <h5 className="text-sm md:text-lg my-4 text-pretty">

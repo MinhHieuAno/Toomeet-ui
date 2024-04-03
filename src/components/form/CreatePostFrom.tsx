@@ -67,12 +67,22 @@ const CreatePostFrom = (props: Props) => {
 
         try {
             setLoading(true);
+
+            // await Promise.all(
+            //     new Array(20).fill(0).map(async () => {
+            //         return api({
+            //             url: "/posts",
+            //             method: "POST",
+            //             data: formData,
+            //         });
+            //     })
+            // );
+
             const response = await api({
                 url: "/posts",
                 method: "POST",
                 data: formData,
             });
-            console.log("NEW POST LOG::: " + JSON.stringify(response.data));
             form.reset({ content: "", images: undefined });
             toast({
                 title: "Đăng bài thành công",

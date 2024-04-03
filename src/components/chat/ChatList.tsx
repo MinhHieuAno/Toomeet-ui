@@ -6,7 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { useToast } from "../ui/use-toast";
 import ChatItem from "./ChatItem";
-import ChatItemLoading from "./ChatItemLoading";
+import CommentItemLoading from "../post/actions/comment/CommentItemLoading";
 import { useViewport } from "@/context/ViewportProvider";
 
 type Props = {};
@@ -71,7 +71,7 @@ const ChatList = ({}: Props) => {
                 next={fetch}
                 hasMore={!page.last}
                 loader={new Array(3).fill(0).map((_, index) => (
-                    <ChatItemLoading key={index} />
+                    <CommentItemLoading key={index} />
                 ))}
                 scrollableTarget="chat-list-wrapper"
             >

@@ -10,13 +10,16 @@ type PostProviderProps = {
 interface IPostContext {
     post: Post;
     setPost: Dispatch<SetStateAction<Post>>;
+    showComment: boolean;
+    setShowComment: Dispatch<SetStateAction<boolean>>;
 }
 
 const PostContext = React.createContext<IPostContext | null>(null);
 
 const PostProvider: React.FC<PostProviderProps> = ({ children, data }) => {
     const [post, setPost] = useState<Post>(data);
-    const values = { post, setPost };
+    const [showComment, setShowComment] = useState<boolean>(false);
+    const values = { post, showComment, setPost, setShowComment };
 
     return (
         <PostContext.Provider value={values}>{children}</PostContext.Provider>

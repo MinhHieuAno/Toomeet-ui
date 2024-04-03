@@ -25,6 +25,7 @@ const NewsFeed = (props: Props) => {
     const { toast } = useToast();
 
     const first = useRef<boolean>(true);
+    const count = useRef<number>(5);
 
     useEffect(() => {
         if (!first.current) return;
@@ -39,7 +40,7 @@ const NewsFeed = (props: Props) => {
             const response = await api("/posts", {
                 params: {
                     page: page.index + 1,
-                    limit: 5,
+                    limit: count.current,
                 },
             });
             const data = response.data;
@@ -52,6 +53,7 @@ const NewsFeed = (props: Props) => {
                 totalElements: data.totalElements,
                 totalPages: data.totalPages,
             });
+            if (count.current <= 20) count.current += 5;
         } catch (error) {
             toast({
                 title: "Lỗi: ",
@@ -75,7 +77,7 @@ const NewsFeed = (props: Props) => {
                 dataLength={posts.length}
                 next={() => fetch()}
                 hasMore={!page.last}
-                loader={new Array(5).fill(0).map((_, index) => (
+                loader={new Array(20).fill(0).map((_, index) => (
                     <PostItemLoading key={index} />
                 ))}
             >

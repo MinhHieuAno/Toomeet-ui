@@ -67,7 +67,7 @@ const PostReaction = ({ postId, initReaction }: Props) => {
             initialReaction={initReaction}
             onActiveReaction={handleReaction}
             onDeactiveReaction={handleRemoveReaction}
-            size={viewport === "mobile" ? "md" : "lg"}
+            size={viewport === "mobile" ? "md" : "md"}
         >
             {(activeReaction, onToggleReaction) => (
                 <PostActionItem

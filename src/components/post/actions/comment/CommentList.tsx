@@ -3,17 +3,18 @@ import { useToast } from "@/components/ui/use-toast";
 import { usePost } from "@/context/PostProvider";
 import api from "@/lib/api";
 import { Page } from "@/lib/common.type";
-import { CommentType, commentsMock } from "@/lib/post.utils";
+import { CommentType } from "@/lib/post.utils";
 import { useEffect, useRef, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
-import CommentInput from "./CommentInput";
 import CommentItem from "./CommentItem";
+import CommentItemLoading from "./CommentItemLoading";
 
 type Props = {
     parent?: string;
+    numberOfComment?: number;
 };
 
-const CommentList = ({ parent }: Props) => {
+const CommentList = ({ parent, numberOfComment }: Props) => {
     const [comments, setComments] = useState<CommentType[]>([]);
     const [page, setPage] = useState<Page>({
         last: false,
@@ -27,21 +28,23 @@ const CommentList = ({ parent }: Props) => {
     const { post } = usePost();
 
     const frist = useRef<boolean>(true);
+    const fetchCount = useRef<number>(8);
 
     useEffect(() => {
         if (!frist.current) return;
         (async () => {
-            await fetch(3);
+            await fetch();
         })();
         frist.current = false;
     }, []);
 
-    const fetch = async (limit?: number) => {
+    const fetch = async () => {
         try {
             const { data } = await api(`/posts/${post.id}/comments`, {
                 params: {
                     page: page.index + 1,
-                    limit: limit || 10,
+                    limit: fetchCount.current,
+                    parentId: parent,
                 },
             });
             setComments((comments) => [...comments, ...data.content]);
@@ -62,23 +65,24 @@ const CommentList = ({ parent }: Props) => {
     };
 
     return (
-        <div className="relative w-full max-h-[80svh] h-min flex-1 flex flex-col justify-start  mt-4 overflow-y-auto custom-scroll">
-            {!frist.current && comments.length === 0 && (
-                <div className="abs-center text-muted-foreground text-center font-medium">
-                    Hãy là người đầu tiên bình luận bài viết này
-                </div>
-            )}
+        <div
+            id={`comment-list-wrapper-${parent || "root"}`}
+            className="relative w-full h-min max-h-[60svh] flex-1 overflow-y-auto custom-scroll p-2 "
+        >
             <InfiniteScroll
-                className="w-full min-h-[400px] space-y-5 p-2 max-h-[80svh] "
+                className=" custom-scroll !overflow-hidden w-full space-y-2"
                 dataLength={comments.length}
                 next={fetch}
                 hasMore={!page.last}
-                // loader={new Array(3).fill(0).map((_, index) => (
-                //     <ChatItemLoading key={index} />
-                // ))}
-                loader={<div>loading</div>}
+                loader={new Array(numberOfComment || 4)
+                    .fill(0)
+                    .map((_, index) => (
+                        <CommentItemLoading key={index} />
+                    ))}
+                // loader={<div>loading</div>}
+                scrollableTarget={`comment-list-wrapper-${parent || "root"}`}
             >
-                {comments.map((comment, index) => (
+                {comments.map((comment) => (
                     <CommentItem
                         key={comment.id}
                         data={comment}
@@ -86,10 +90,6 @@ const CommentList = ({ parent }: Props) => {
                     ></CommentItem>
                 ))}
             </InfiniteScroll>
-            <CommentInput
-                setComments={setComments}
-                parent={parent || post.id}
-            ></CommentInput>
         </div>
     );
 };
