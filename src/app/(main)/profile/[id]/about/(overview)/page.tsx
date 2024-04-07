@@ -1,17 +1,12 @@
 "use client";
+import ProfileInfoGroup from "@/components/profile/ProfileInfoGroup";
+import ProfileInfoItem from "@/components/profile/ProfileInfoItem";
 import { useToast } from "@/components/ui/use-toast";
+import { ProfileOverviewType } from "@/lib/profile.utils";
 import { sleep } from "@/lib/utils";
 import React, { useEffect, useState } from "react";
 
 type Props = {};
-
-type ProfileOverviewType = {
-    workplace: string | null;
-    eduaction: string | null;
-    address: string | null;
-    phone: string | null;
-    email: string | null;
-};
 
 const page = (props: Props) => {
     const [profileOverview, setProfileOverview] =
@@ -25,10 +20,10 @@ const page = (props: Props) => {
         (async () => {
             try {
                 setLoading(true);
-                // await sleep(2000);
+                await sleep(2000);
                 setProfileOverview({
                     address: "Tân Uyên, Bính Dương",
-                    eduaction: "TDMU",
+                    education: "TDMU",
                     email: "hieu@gmail.com",
                     phone: "0932251521",
                     workplace: "Tân Uyên, Bính Dương",
@@ -45,34 +40,29 @@ const page = (props: Props) => {
     }, []);
 
     return (
-        <div className="p-5">
-            {profileOverview?.workplace && (
-                <div className="flex justify-start gap-2 text-lg">
-                    <h4 className="font-semibold text-xl">Làm việc tại:</h4>
-                    <p>{profileOverview?.workplace}</p>
-                </div>
-            )}
+        <div className="w-full h-full p-5">
+            <ProfileInfoGroup title="Thông tin cơ bản" loading={loading}>
+                {profileOverview?.workplace && (
+                    <ProfileInfoItem
+                        title="Làm việc tại: "
+                        content={profileOverview.workplace}
+                    />
+                )}
 
-            {profileOverview?.eduaction && (
-                <div className="flex justify-start gap-2 text-lg">
-                    <h4 className="font-semibold text-lg">Học vấn:</h4>
-                    <p>{profileOverview?.eduaction}</p>
-                </div>
-            )}
+                {profileOverview?.education && (
+                    <ProfileInfoItem
+                        title="Học vấn: "
+                        content={profileOverview?.education}
+                    />
+                )}
 
-            {profileOverview?.address && (
-                <div className="flex justify-start gap-2 text-lg">
-                    <h4 className="font-semibold text-lg">Sống tại:</h4>
-                    <p>{profileOverview?.address}</p>
-                </div>
-            )}
-
-            {profileOverview?.address && (
-                <div className="flex justify-start gap-2 text-lg">
-                    <h4 className="font-semibold">Địa chỉ:</h4>
-                    <p>{profileOverview?.address}</p>
-                </div>
-            )}
+                {profileOverview?.address && (
+                    <ProfileInfoItem
+                        title="Sống tại: "
+                        content={profileOverview?.address}
+                    />
+                )}
+            </ProfileInfoGroup>
         </div>
     );
 };

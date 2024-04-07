@@ -11,7 +11,7 @@ const Sidebar: FC<Props> = ({ className, children }) => {
     return (
         <div
             className={cn(
-                "w-full h-[calc(100svh-90px)] sticky top-[90px]  p-3 ",
+                "w-full h-[calc(100svh-90px)] sticky md:top-[90px]  md:p-3 ",
                 className
             )}
         >

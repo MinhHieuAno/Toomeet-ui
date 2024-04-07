@@ -13,7 +13,7 @@ const SideBarItem = (props: Props) => {
     return (
         <Link
             className={cn(
-                "w-full flex justify-start items-start gap-2 hover:bg-muted px-4 py-2",
+                "w-full flex justify-start items-start gap-2 hover:bg-muted px-5 py-3",
                 { "bg-primary/5 text-primary": props.active },
                 props.className
             )}

@@ -139,13 +139,13 @@ const PostItem: FC<Props> = (props) => {
                         className={cn(
                             "flex justify-center items-center  overflow-hidden",
                             {
-                                ["h-[500px] max-h-[500px] overflow-hidden"]:
+                                ["h-auto max-h-[300px] md:max-h-[600px] overflow-hidden"]:
                                     post.images.length > 0,
                             }
                         )}
                     >
                         <Gallery
-                            className="w-full h-full p-2 md:p-8"
+                            className=" p-2 md:p-8 w-full h-full"
                             images={post.images}
                             row={2}
                         ></Gallery>

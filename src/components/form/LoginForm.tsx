@@ -104,6 +104,14 @@ const LoginForm = () => {
                         </FormItem>
                     )}
                 />
+                <div className="flex justify-end">
+                    <Link
+                        href="/auth/forgot-password"
+                        className="text-primary underline text-sm font-medium"
+                    >
+                        Quên mật khẩu?
+                    </Link>
+                </div>
                 <Button
                     disabled={loading}
                     type="submit"

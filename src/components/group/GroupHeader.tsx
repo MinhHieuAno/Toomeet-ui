@@ -10,7 +10,7 @@ import React from "react";
 
 type Props = {};
 
-const Header = (props: Props) => {
+const GroupHeader = (props: Props) => {
     return (
         <div>
             <div className="px-5 py-4">
@@ -19,12 +19,25 @@ const Header = (props: Props) => {
                         Nhóm
                     </h1>
                     <div className="flex justify-end items-center gap-2">
-                        <Button
+                        <Link
+                            className={cn(
+                                "md:hidden",
+                                buttonVariants({
+                                    size: "icon",
+                                    variant: "secondary",
+                                })
+                            )}
+                            href="/groups/create"
+                        >
+                            <Plus size={20}></Plus>
+                        </Link>
+
+                        {/* <Button
                             variant="ghost"
                             className="text-muted-foreground"
                         >
                             <Settings></Settings>
-                        </Button>
+                        </Button> */}
                     </div>
                 </div>
                 <GroupSearch></GroupSearch>
@@ -34,4 +47,4 @@ const Header = (props: Props) => {
     );
 };
 
-export default Header;
+export default GroupHeader;

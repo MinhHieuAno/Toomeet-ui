@@ -2,6 +2,7 @@
 import api from "@/lib/api";
 import React, {
     Dispatch,
+    SetStateAction,
     useContext,
     useEffect,
     useState,
@@ -44,6 +45,7 @@ interface IAuthContext {
         token: string;
         tokenType: string;
     }) => void;
+    updateAccount: (account: Account) => void;
     logout: () => void;
 }
 
@@ -83,7 +85,12 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         router.replace("/auth/login");
     };
 
-    const values = { account, saveAuth, logout, loading };
+    const updateAccount = (account: Account) => {
+        setAccount(account);
+        sessionStorage.setItem("account", JSON.stringify(account));
+    };
+
+    const values = { account, saveAuth, logout, loading, updateAccount };
 
     return (
         <AuthContext.Provider value={values}>{children}</AuthContext.Provider>
@@ -104,7 +111,7 @@ const auth = async (logout: () => void): Promise<Account | null> => {
     }
     try {
         const account = await getAccount();
-        sessionStorage.setItem("user", JSON.stringify(account));
+        sessionStorage.setItem("account", JSON.stringify(account));
         return account;
     } catch (error: any) {
         logout();

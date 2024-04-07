@@ -12,7 +12,7 @@ const ACCEPTED_IMAGE_TYPES = [
 export const createGroupSchema = z.object({
     name: z
         .string({ required_error: "Tên nhóm là bắt buộc" })
-        .min(20, { message: "Tên nhóm phải có ít nhất 20 kí tự" })
+        .min(5, { message: "Tên nhóm phải có ít nhất 5 kí tự" })
         .max(120, { message: "Tên nhóm không dài quá 120 kí tự" }),
     // members: z.optional(z.array(z.number())),
     description: z

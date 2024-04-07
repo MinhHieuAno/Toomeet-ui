@@ -22,7 +22,8 @@ const SidebarBlock: FC<Props> = (props) => {
     return (
         <Card
             className={cn({
-                "min-h-[calc(100svh-150px)]": props.fullScreen,
+                "min-h-[calc(100svh-100px)] md:min-h-[calc(100svh-150px)]":
+                    props.fullScreen,
             })}
         >
             {!props.header && (props.title || props.description) && (

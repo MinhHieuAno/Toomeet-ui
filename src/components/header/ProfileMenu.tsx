@@ -13,6 +13,7 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useAuth } from "@/context/AuthProvider";
+import { useViewport } from "@/context/ViewportProvider";
 import { getUsername } from "@/lib/utils";
 
 import {
@@ -29,15 +30,15 @@ import {
     User,
 } from "lucide-react";
 import { useTheme } from "next-themes";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ReactNode } from "react";
 
 const ProfileMenu = () => {
     const { setTheme } = useTheme();
-
     const router = useRouter();
-
     const { account, logout } = useAuth();
+    const { viewport } = useViewport();
 
     if (!account) return <></>;
 
@@ -45,6 +46,21 @@ const ProfileMenu = () => {
         logout();
         router.replace("/auth/login");
     };
+
+    if (viewport === "mobile")
+        return (
+            <Link href="/settings">
+                <Avatar>
+                    <AvatarImage
+                        loading={"lazy"}
+                        src={account?.user?.profile?.avatar?.url || undefined}
+                    ></AvatarImage>
+                    <AvatarFallback>
+                        {getUsername(account.user.name)[0]}
+                    </AvatarFallback>
+                </Avatar>
+            </Link>
+        );
 
     return (
         <DropdownMenu>
@@ -82,21 +98,30 @@ const ProfileMenu = () => {
 
                 <DropdownMenuGroup>
                     {/* ACCOUNT INFO */}
-                    <DropdownMenuItemIcon Icon={User}>
-                        Thông tin tài khoản
+                    <DropdownMenuItemIcon
+                        to={`/profile/${account.user.id}`}
+                        Icon={User}
+                    >
+                        Trang cá nhân
                     </DropdownMenuItemIcon>
                     {/* GLOBAL SETTING */}
-                    <DropdownMenuItemIcon Icon={Settings}>
+                    <DropdownMenuItemIcon
+                        Icon={Settings}
+                        to="/settings/general"
+                    >
                         Cài đặt chung
                     </DropdownMenuItemIcon>
                     {/* NOTOFICATION */}
-                    <DropdownMenuItemIcon Icon={Bell}>
+                    <DropdownMenuItemIcon
+                        Icon={Bell}
+                        to="/settings/notifications"
+                    >
                         Thông báo
                     </DropdownMenuItemIcon>
                     {/* TIMETABLE */}
-                    <DropdownMenuItemIcon Icon={CalendarDays}>
+                    {/* <DropdownMenuItemIcon Icon={CalendarDays}>
                         Thời khóa biểu
-                    </DropdownMenuItemIcon>
+                    </DropdownMenuItemIcon> */}
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
 
@@ -178,14 +203,22 @@ const DropdownMenuItemIcon = ({
     children,
     asChild,
     onClick,
+    to,
 }: {
     Icon?: LucideIcon;
     children: ReactNode;
     asChild?: boolean;
     onClick?: () => void;
+    to?: string;
 }) => {
+    const router = useRouter();
+
+    const handleClick = () => {
+        if (to) router.push(to);
+        else onClick?.();
+    };
     return (
-        <DropdownMenuItem onClick={onClick} asChild={asChild}>
+        <DropdownMenuItem onClick={handleClick} asChild={asChild}>
             <div className="w-full flex justify-start items-center gap-3">
                 {Icon && <Icon size={20} />}
                 <span>{children}</span>

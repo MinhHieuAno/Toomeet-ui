@@ -4,6 +4,7 @@ import { getUsername } from "@/lib/utils";
 import { createGroupSchema } from "@/schema/group.schema";
 import { useFormContext } from "react-hook-form";
 import * as z from "zod";
+import FormData from "form-data";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import {
     Form,
@@ -18,7 +19,7 @@ import Role from "../ui/role";
 import TextArea from "../ui/text-area";
 import { Button } from "../ui/button";
 import InputImage from "../input/InputImage";
-import { ImageListType } from "react-images-uploading";
+import { ImageListType, ImageType } from "react-images-uploading";
 import { ImagePlus } from "lucide-react";
 import {
     Select,
@@ -30,13 +31,51 @@ import {
     SelectValue,
 } from "../ui/select";
 import { GroupPrivacy } from "@/lib/group.utils";
+import { useToast } from "../ui/use-toast";
+import api from "@/lib/api";
+import { useState } from "react";
+import { tree } from "next/dist/build/templates/app-page";
+import { useRouter } from "next/router";
 type Props = {};
 
 const CreateGroupForm = (props: Props) => {
+    const [loading, setLoading] = useState<boolean>(false);
+
     const form = useFormContext<z.infer<typeof createGroupSchema>>();
+
     const { account } = useAuth();
-    const onSubmit = (value: z.infer<typeof createGroupSchema>) => {
-        console.log({ value });
+
+    const router = useRouter();
+
+    const { toast } = useToast();
+
+    const onSubmit = async (value: z.infer<typeof createGroupSchema>) => {
+        setLoading(true);
+        try {
+            const formData = new FormData();
+
+            formData.append("name", value.name);
+            formData.append("description", value.description);
+
+            const images: ImageListType = value.background;
+
+            const avatar = images[0];
+            formData.append("avatar", avatar.file);
+
+            const { data } = await api({
+                method: "POST",
+                url: "/group",
+                data: formData,
+            });
+            router.replace(`/groups/${data.groupId}`);
+        } catch (error: any) {
+            console.log(error);
+            toast({
+                title: "Tạo nhóm thất bại",
+                description: error,
+            });
+        }
+        setLoading(false);
     };
 
     return (
@@ -101,11 +140,11 @@ const CreateGroupForm = (props: Props) => {
                                         </SelectTrigger>
                                         <SelectContent>
                                             <SelectGroup>
-                                                <SelectItem
+                                                {/* <SelectItem
                                                     value={GroupPrivacy.PRIVATE.toString()}
                                                 >
                                                     Riêng tư
-                                                </SelectItem>
+                                                </SelectItem> */}
                                                 <SelectItem
                                                     value={GroupPrivacy.PUBLIC.toString()}
                                                 >
@@ -166,7 +205,13 @@ const CreateGroupForm = (props: Props) => {
                         )}
                     />
                 </div>
-                <Button className="w-full my-5">Tạo</Button>
+                <Button
+                    disabled={loading}
+                    type="submit"
+                    className="w-full my-5"
+                >
+                    {loading ? "Đang tạo nhóm" : "Tạo"}
+                </Button>
             </form>
         </Form>
     );

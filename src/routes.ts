@@ -1,4 +1,4 @@
-export const publicPages: string[] = [];
+export const publicPages: string[] = ["/profile/*"];
 export const authPages: string[] = ["/auth/*"];
 
 export const routeValidate = (pathname: string, validateRoutes: string[]) => {

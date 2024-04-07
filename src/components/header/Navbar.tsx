@@ -9,32 +9,55 @@ import { cn } from "@/lib/utils";
 import { Home, Search, Store, UserRound, Users } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ReactNode } from "react";
+import { ReactNode, useMemo } from "react";
 import { buttonVariants } from "../ui/button";
+import { useViewport } from "@/context/ViewportProvider";
 
 type Props = {
     className?: string;
 };
 
 const Navbar = ({ className }: Props) => {
+    const pathname = usePathname();
+    const { viewport } = useViewport();
+
+    const isMobile = useMemo(() => viewport === "mobile", [viewport]);
+
     return (
         <nav className={cn(" flex justify-center items-center ", className)}>
-            <NavItem label="Trang chủ" to="/">
+            <NavItem active={pathname === "/"} label="Trang chủ" to="/">
                 <Home />
             </NavItem>
-            <NavItem label="Bạn bè" to="/friends/suggestions">
+            <NavItem
+                label="Bạn bè"
+                to="/friends/suggestions"
+                active={pathname.startsWith("/friends")}
+            >
                 <UserRound />
             </NavItem>
 
-            <NavItem className="flex xl:hidden" label="Tìm kiếm" to="/search">
+            <NavItem
+                className="flex xl:hidden"
+                label="Tìm kiếm"
+                to="/search"
+                active={pathname.startsWith("/search")}
+            >
                 <Search />
             </NavItem>
 
-            <NavItem label="Nhóm" to="/groups">
+            <NavItem
+                label="Nhóm"
+                to={isMobile ? "/groups" : "/groups/feed"}
+                active={pathname.startsWith("/groups")}
+            >
                 <Users />
             </NavItem>
 
-            <NavItem label="Cửa hàng" to="/store">
+            <NavItem
+                label="Cửa hàng"
+                to="/store"
+                active={pathname.startsWith("/store")}
+            >
                 <Store />
             </NavItem>
         </nav>
@@ -46,11 +69,16 @@ type NavTiemProps = {
     to: string;
     children: ReactNode;
     className?: string;
+    active?: boolean;
 };
 
-const NavItem = ({ label, to, children, className }: NavTiemProps) => {
-    const pathname = usePathname();
-
+const NavItem = ({
+    label,
+    to,
+    children,
+    className,
+    active = false,
+}: NavTiemProps) => {
     return (
         <TooltipProvider>
             <Tooltip>
@@ -61,7 +89,7 @@ const NavItem = ({ label, to, children, className }: NavTiemProps) => {
                             "flex-1 flex-shrink-0 font-semibold hover:text-primary text-muted-foreground cursor-pointer",
                             {
                                 "text-primary relative before:absolute before:-bottom-2 before:left-0 before:h-[2px] before:w-full before:bg-primary ":
-                                    pathname === to,
+                                    active,
                             },
                             className
                         )}

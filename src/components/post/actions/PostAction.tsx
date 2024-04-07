@@ -27,10 +27,9 @@ const PostAction = ({}: Props) => {
                 <PostReaction
                     postId={post.id}
                     initReaction={
-                        3
-                        // (post.emoji != -1
-                        //     ? post.emoji
-                        //     : undefined) as ReactionType
+                        (post.emoji != -1
+                            ? post.emoji
+                            : undefined) as ReactionType
                     }
                 ></PostReaction>
                 <PostComment></PostComment>

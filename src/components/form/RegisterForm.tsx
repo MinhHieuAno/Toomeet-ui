@@ -37,6 +37,7 @@ const RegisterForm = () => {
 
     const form = useForm<z.infer<typeof createAccoutSchema>>({
         resolver: zodResolver(createAccoutSchema),
+        defaultValues: {},
     });
 
     const onSubmit = async (value: z.infer<typeof createAccoutSchema>) => {
@@ -163,6 +164,7 @@ const RegisterForm = () => {
                                         align="start"
                                     >
                                         <Calendar
+                                            className="min-h-[350px] flex justify-cente items-start"
                                             mode="single"
                                             selected={field.value}
                                             showOutsideDays={false}
@@ -178,7 +180,7 @@ const RegisterForm = () => {
                                             defaultMonth={
                                                 field.value ||
                                                 moment()
-                                                    .subtract(16, "years")
+                                                    .subtract(20, "years")
                                                     .toDate()
                                             }
                                         />
