@@ -1,8 +1,8 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { Button, ButtonProps } from "../ui/button";
+import { Button, ButtonProps } from "@/components/ui/button";
 import { Friend } from "@/lib/friend.utils";
-import { useToast } from "../ui/use-toast";
+import { useToast } from "@/components/ui/use-toast";
 import api from "@/lib/api";
 
 type Props = {

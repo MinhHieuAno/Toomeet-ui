@@ -10,7 +10,7 @@ import {
     FormField,
     FormItem,
     FormMessage,
-} from "@/components//ui/form";
+} from "@/components/ui/form";
 import { createPostSchema } from "@/schema/createPost.schema";
 import { ImageListType } from "react-images-uploading";
 import CreatePostActionButton from "./CreatePostActionButton";

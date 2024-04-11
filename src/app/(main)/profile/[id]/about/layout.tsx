@@ -1,7 +1,6 @@
-import ProfileNavHorizontal from "@/components/profile/ProfileNavHorizontal";
-import ProfileNavVertical from "@/components/profile/ProfileNavVertical";
 import { Card } from "@/components/ui/card";
 import React, { ReactNode } from "react";
+import ProfileNavVertical from "../../components/ProfileNavVertical";
 
 type Props = {
     children: ReactNode;

@@ -15,13 +15,18 @@ import {
     HoverCardTrigger,
 } from "@/components/ui/hover-card";
 
+import { Button } from "@/components/ui/button";
+import Gallery from "@/components/ui/gallery";
+import { Separator } from "@/components/ui/separator";
 import {
     Tooltip,
     TooltipContent,
     TooltipProvider,
     TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { Post, getPrivacyData } from "@/lib/post.utils";
+import { CommentProvider } from "@/context/CommentProvider";
+import { usePost } from "@/context/PostProvider";
+import { getPrivacyData } from "@/lib/post.utils";
 import { cn, getUsername } from "@/lib/utils";
 import {
     BellRing,
@@ -31,19 +36,17 @@ import {
 } from "lucide-react";
 import moment from "moment";
 import { FC, useState } from "react";
-import { Button } from "../ui/button";
-import Gallery from "../ui/gallery";
-import { Separator } from "../ui/separator";
+import OriginPostItem from "./OriginPostItem";
 import PostAction from "./actions/PostAction";
-import { usePost } from "@/context/PostProvider";
-import CommentList from "./actions/comment/CommentList";
 import CommentInput from "./actions/comment/CommentInput";
-import { CommentProvider } from "@/context/CommentProvider";
+import CommentList from "./actions/comment/CommentList";
+import ToggleContent from "./ToggleContent";
 
 type Props = {};
 moment.locale("vi");
-const PostItem: FC<Props> = (props) => {
-    const { post, showComment } = usePost();
+const PostItem: FC<Props> = ({}: Props) => {
+    const { post, originPost, showComment } = usePost();
+
     return (
         <Card className="my-5 mx-2 p-5">
             <div className="flex justify-between items-start">
@@ -80,8 +83,18 @@ const PostItem: FC<Props> = (props) => {
                         </HoverCardContent>
                     </HoverCard>
                     <div className="flex flex-col justify-center items-start">
-                        <h4 className="text-base md:text-lg line-clamp-1 max-w-full font-medium">
+                        <h4 className="text-base md:text-lg line-clamp-2 max-w-full font-medium">
                             {post.author.name}
+
+                            {post.originPost && (
+                                <>
+                                    <span className="text-sm">
+                                        {" "}
+                                        đã chia sẻ bài viết của{" "}
+                                    </span>
+                                    {post.originPost?.author.name}
+                                </>
+                            )}
                         </h4>
                         <div className="flex justify-start items-center gap-2">
                             <p className="text-xs text-muted-foreground">
@@ -102,7 +115,7 @@ const PostItem: FC<Props> = (props) => {
                         </div>
                     </div>
                 </div>
-                <DropdownMenu>
+                {/* <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <Button variant="ghost">
                             <MoreHorizontal />
@@ -127,11 +140,17 @@ const PostItem: FC<Props> = (props) => {
                             </DropdownMenuItem>
                         </DropdownMenuGroup>
                     </DropdownMenuContent>
-                </DropdownMenu>
+                </DropdownMenu> */}
             </div>
             <CardContent className="my-3">
                 {post.content !== null && (
                     <ToggleContent content={post.content} />
+                )}
+
+                {originPost && (
+                    <div className="p-5 border">
+                        <OriginPostItem {...originPost}></OriginPostItem>
+                    </div>
                 )}
 
                 {post.images !== null && (
@@ -170,39 +189,6 @@ const PostItem: FC<Props> = (props) => {
                 )}
             </CommentProvider>
         </Card>
-    );
-};
-
-const ToggleContent = ({
-    content,
-    maxLength = 200,
-}: {
-    content: string;
-    maxLength?: number;
-}) => {
-    const [open, setOpen] = useState<boolean>(
-        () => content.length <= maxLength
-    );
-
-    if (content === "null") return <></>;
-
-    return (
-        <h5 className="text-sm md:text-lg my-4 text-pretty">
-            {content.length > 200 ? (
-                <>
-                    {content.slice(0, open ? content.length : maxLength)}
-                    <Button
-                        onClick={() => setOpen((open) => !open)}
-                        variant="link"
-                        size="sm"
-                    >
-                        {open ? "Ẩn" : "Xem thêm"}
-                    </Button>
-                </>
-            ) : (
-                content
-            )}
-        </h5>
     );
 };
 

@@ -8,6 +8,7 @@ import { useEffect, useRef, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import CommentItem from "./CommentItem";
 import CommentItemLoading from "./CommentItemLoading";
+import { useSocket } from "@/context/SocketProvider";
 
 type Props = {
     parent?: string;
@@ -16,6 +17,7 @@ type Props = {
 
 const CommentList = ({ parent, numberOfComment }: Props) => {
     const [comments, setComments] = useState<CommentType[]>([]);
+    const [realTimeComments, setRealTimeComments] = useState<CommentType[]>([]);
     const [page, setPage] = useState<Page>({
         last: false,
         index: -1,
@@ -26,9 +28,9 @@ const CommentList = ({ parent, numberOfComment }: Props) => {
 
     const { toast } = useToast();
     const { post } = usePost();
+    const { getConnection, client } = useSocket();
 
     const frist = useRef<boolean>(true);
-    const fetchCount = useRef<number>(8);
 
     useEffect(() => {
         if (!frist.current) return;
@@ -43,7 +45,7 @@ const CommentList = ({ parent, numberOfComment }: Props) => {
             const { data } = await api(`/posts/${post.id}/comments`, {
                 params: {
                     page: page.index + 1,
-                    limit: fetchCount.current,
+                    limit: 10,
                     parentId: parent,
                 },
             });
@@ -64,13 +66,55 @@ const CommentList = ({ parent, numberOfComment }: Props) => {
         }
     };
 
+    useEffect(() => {
+        const client = getConnection();
+        if (!client || !client.connected) return;
+
+        const subscription = client.subscribe(
+            `/post/new-comment/${parent || post.id}`,
+            (message) => {
+                const data = JSON.parse(message.body);
+                setRealTimeComments((comments) => [
+                    ...comments,
+                    {
+                        id: data.comment.commentId,
+                        author: data.comment.author,
+                        content: data.comment.content,
+                        emoji: -1,
+                        level: 0,
+                        likeCount: 0,
+                        parentId: data.parentId,
+                        reactions: null,
+                        replyCount: 0,
+                        createdAt: data.timestamp,
+                        updatedAt: data.timestamp,
+                    },
+                ]);
+            }
+        );
+
+        return () => {
+            subscription.unsubscribe();
+        };
+    }, []);
+
     return (
         <div
             id={`comment-list-wrapper-${parent || "root"}`}
-            className="relative w-full h-min max-h-[60svh] flex-1 overflow-y-auto custom-scroll p-2 "
+            className="relative w-full h-min max-h-[60svh] flex-1 overflow-y-auto custom-scroll p-2 flex flex-col-reverse"
         >
+            <div className="flex flex-col">
+                {realTimeComments.map((comment) => (
+                    <CommentItem
+                        canScrollIntoView
+                        key={comment.id}
+                        data={comment}
+                        isChildren={!!parent}
+                    ></CommentItem>
+                ))}
+            </div>
             <InfiniteScroll
-                className=" custom-scroll !overflow-hidden w-full space-y-2"
+                className="custom-scroll !overflow-hidden w-full space-y-2 flex flex-col-reverse"
                 dataLength={comments.length}
                 next={fetch}
                 hasMore={!page.last}
@@ -81,6 +125,7 @@ const CommentList = ({ parent, numberOfComment }: Props) => {
                     ))}
                 // loader={<div>loading</div>}
                 scrollableTarget={`comment-list-wrapper-${parent || "root"}`}
+                inverse
             >
                 {comments.map((comment) => (
                     <CommentItem

@@ -7,15 +7,15 @@ import {
     FormItem,
     FormLabel,
     FormMessage,
-} from "../ui/form";
+} from "@/components/ui/form";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { resetPasswordSchema } from "@/schema/auth.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import Logo from "../ui/Logo";
-import { Input } from "../ui/input";
-import { Button } from "../ui/button";
-import { useToast } from "../ui/use-toast";
+import Logo from "@/components/ui/Logo";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { useToast } from "@/components/ui/use-toast";
 import api from "@/lib/api";
 import { useRouter } from "next/navigation";
 

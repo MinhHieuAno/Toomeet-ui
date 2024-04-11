@@ -15,8 +15,8 @@ import {
 import { cn } from "@/lib/utils";
 import { Plus } from "lucide-react";
 import ImageUploading, { ImageListType } from "react-images-uploading";
-import { Button, buttonVariants } from "../ui/button";
-import { ScrollArea } from "../ui/scroll-area";
+import { Button, buttonVariants } from "@/components/ui/button";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 type Props = {
     children: ReactNode;

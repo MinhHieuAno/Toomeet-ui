@@ -1,8 +1,8 @@
 "use client";
 import React from "react";
-import { Form } from "../ui/form";
+import { Form } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
-import Comingsoon from "../ui/comingsoon";
+import Comingsoon from "@/components/ui/comingsoon";
 
 type Props = {};
 

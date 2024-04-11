@@ -71,6 +71,7 @@ const CommentInput = ({}: Props) => {
                 data: value,
             });
             form.setValue("content", "");
+            inputRef.current?.focus();
             setReplyComment(null);
         } catch (error) {
             console.log(error);

@@ -1,12 +1,12 @@
-import Sidebar from "@/components/sidebar/Sidebar";
-import SidebarBlock from "@/components/sidebar/SidebarBlock";
-import MaxWidthWrapper from "@/components/wrappers/MaxWidthWrapper";
 import { FC, ReactNode } from "react";
-import NewEven from "../../modules/home/NewEven";
-import RecommendFriend from "../../modules/home/RecommendFriend";
-import RecommendGroup from "../../modules/home/RecommendGroup";
+import NewEven from "./components/NewEven";
 import FriendOnlineList from "./FriendOnlineList";
 import { SocketProvider } from "@/context/SocketProvider";
+import MaxWidthWrapper from "@/components/wrappers/MaxWidthWrapper";
+import Sidebar from "@/components/sidebar/Sidebar";
+import SidebarBlock from "@/components/sidebar/SidebarBlock";
+import RecommendFriend from "./components/RecommendFriend";
+import RecommendGroup from "./components/RecommendGroup";
 
 type Props = {
     children: ReactNode;

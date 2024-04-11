@@ -1,11 +1,19 @@
 "use client";
 import { useAuth } from "@/context/AuthProvider";
+import api from "@/lib/api";
+import { GroupPrivacy } from "@/lib/group.utils";
 import { getUsername } from "@/lib/utils";
 import { createGroupSchema } from "@/schema/group.schema";
-import { useFormContext } from "react-hook-form";
-import * as z from "zod";
 import FormData from "form-data";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { ImagePlus } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { useFormContext } from "react-hook-form";
+import { ImageListType } from "react-images-uploading";
+import * as z from "zod";
+import InputImage from "@/components/input/InputImage";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
 import {
     Form,
     FormControl,
@@ -13,29 +21,19 @@ import {
     FormItem,
     FormLabel,
     FormMessage,
-} from "../ui/form";
-import { Input } from "../ui/input";
-import Role from "../ui/role";
-import TextArea from "../ui/text-area";
-import { Button } from "../ui/button";
-import InputImage from "../input/InputImage";
-import { ImageListType, ImageType } from "react-images-uploading";
-import { ImagePlus } from "lucide-react";
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import Role from "@/components/ui/role";
 import {
     Select,
     SelectContent,
     SelectGroup,
     SelectItem,
-    SelectLabel,
     SelectTrigger,
     SelectValue,
-} from "../ui/select";
-import { GroupPrivacy } from "@/lib/group.utils";
-import { useToast } from "../ui/use-toast";
-import api from "@/lib/api";
-import { useState } from "react";
-import { tree } from "next/dist/build/templates/app-page";
-import { useRouter } from "next/router";
+} from "@/components/ui/select";
+import TextArea from "@/components/ui/text-area";
+import { useToast } from "@/components/ui/use-toast";
 type Props = {};
 
 const CreateGroupForm = (props: Props) => {

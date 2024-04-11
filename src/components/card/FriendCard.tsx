@@ -1,8 +1,8 @@
 "use client";
 import { Friend } from "@/lib/friend.utils";
 import React, { ReactNode } from "react";
-import { Card, CardDecoration } from "../ui/card";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { Card, CardDecoration } from "@/components/ui/card";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { getUsername } from "@/lib/utils";
 
 type Props = {

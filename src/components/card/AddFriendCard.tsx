@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import FriendCard from "./FriendCard";
 import ButtonAddFriend from "../button/ButtonAddFriend";
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/button";
 import { Friend } from "@/lib/friend.utils";
 import { send } from "process";
 import ButtonCancelAddFriend from "../button/ButtonCancelAddFriend";

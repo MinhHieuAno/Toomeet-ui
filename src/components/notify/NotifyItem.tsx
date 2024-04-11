@@ -10,8 +10,8 @@ import {
 } from "lucide-react";
 import moment from "moment";
 import { useRouter } from "next/navigation";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import { DropdownMenuItem } from "../ui/dropdown-menu";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 
 type Props = {
     className?: string;

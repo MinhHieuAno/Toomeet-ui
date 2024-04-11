@@ -31,11 +31,6 @@ const PostReaction = ({ postId, initReaction }: Props) => {
                     emoji,
                 },
             });
-            setPost((post) => ({
-                ...post,
-                reactionCount: data.reactionCount,
-                emoji: emoji,
-            }));
         } catch (e: any) {
             toast({
                 title: "Lỗi : ",

@@ -10,8 +10,8 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
-import { Button, buttonVariants } from "../ui/button";
-import { Calendar } from "../ui/calendar";
+import { Button, buttonVariants } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
 import {
     Form,
     FormControl,
@@ -19,16 +19,20 @@ import {
     FormItem,
     FormLabel,
     FormMessage,
-} from "../ui/form";
-import { Input } from "../ui/input";
-import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import {
+    Popover,
+    PopoverContent,
+    PopoverTrigger,
+} from "@/components/ui/popover";
 import {
     Select,
     SelectContent,
     SelectItem,
     SelectTrigger,
     SelectValue,
-} from "../ui/select";
+} from "@/components/ui/select";
 
 const RegisterForm = () => {
     const [loading, setLoading] = useState<boolean>(false);

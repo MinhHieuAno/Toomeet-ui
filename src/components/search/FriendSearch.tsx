@@ -8,10 +8,10 @@ import React, {
     useEffect,
     useState,
 } from "react";
-import { Input, InputProps } from "../ui/input";
+import { Input, InputProps } from "@/components/ui/input";
 import useDebounce from "@/hooks/useDebounce";
 import { Friend, mockFriends } from "@/lib/friend.utils";
-import { useToast } from "../ui/use-toast";
+import { useToast } from "@/components/ui/use-toast";
 import api from "@/lib/api";
 import { sleep } from "@/lib/utils";
 

@@ -5,11 +5,16 @@ import { ReactionType } from "@/lib/reaction.utils";
 import PostReaction from "./PostReaction";
 import PostShare from "./PostShare";
 import PostComment from "./comment/PostComment";
+import { useEffect } from "react";
+import { useAuth } from "@/context/AuthProvider";
+import { cn } from "@/lib/utils";
 
 type Props = {};
 
 const PostAction = ({}: Props) => {
     const { post, setShowComment } = usePost();
+
+    const { account } = useAuth();
 
     return (
         <div className="">
@@ -23,7 +28,15 @@ const PostAction = ({}: Props) => {
                 </span>
             </div>
             <Separator className="my-3"></Separator>
-            <div className="grid grid-cols-3 gap-8 w-full justify-between items-center">
+            <div
+                className={cn(
+                    "grid gap-8 w-full justify-between items-center",
+                    {
+                        "grid-cols-3": account?.user.id !== post.author.id,
+                        "grid-cols-2": account?.user.id === post.author.id,
+                    }
+                )}
+            >
                 <PostReaction
                     postId={post.id}
                     initReaction={
@@ -33,7 +46,7 @@ const PostAction = ({}: Props) => {
                     }
                 ></PostReaction>
                 <PostComment></PostComment>
-                <PostShare></PostShare>
+                {account?.user.id !== post.author.id && <PostShare></PostShare>}
             </div>
         </div>
     );

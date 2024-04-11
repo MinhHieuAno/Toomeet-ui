@@ -15,6 +15,7 @@ interface ISocketContext {
     onConnected: (frame?: Frame) => void;
     onError: (error: Frame | string) => void;
     onDisconnect: () => void;
+    client: Client | null;
 }
 
 const SocketContext = React.createContext<ISocketContext | null>(null);
@@ -31,7 +32,7 @@ const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
         client.connect(
             {
                 Authorization: "Bearer " + Cookies.get("access_token"),
-                debugger: false,
+                debugger: true,
             },
             onConnected,
             onError

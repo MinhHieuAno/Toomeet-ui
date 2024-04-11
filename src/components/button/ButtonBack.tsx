@@ -1,6 +1,6 @@
 "use client";
 import React, { ReactNode } from "react";
-import { Button, ButtonProps } from "../ui/button";
+import { Button, ButtonProps } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { ChevronLeft } from "lucide-react";
 

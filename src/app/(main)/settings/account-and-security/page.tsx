@@ -1,12 +1,23 @@
-import AccountSettingForm from "@/components/form/AccountSettingForm";
+"use client";
 import SecuritySettingForm from "@/components/form/SecuritySettingForm";
-import LoginHistoryList from "@/components/setting/LoginHistoryList";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { useAuth } from "@/context/AuthProvider";
 import { QRCodeSVG } from "qrcode.react";
+import { useEffect, useRef } from "react";
+import LoginHistoryList from "../components/LoginHistoryList";
+import AccountSettingForm from "@/components/form/AccountSettingForm";
 type Props = {};
 
 const page = (props: Props) => {
+    const { account } = useAuth();
+
+    const hostName = useRef<string>("");
+
+    useEffect(() => {
+        hostName.current = location.host;
+    }, []);
+
     return (
         <div className="space-y-6">
             <div>
@@ -23,7 +34,9 @@ const page = (props: Props) => {
                     <DialogContent className="w-[300px] h-[300px] p-5">
                         <QRCodeSVG
                             className="w-full h-auto"
-                            value="https://reactjs.org/"
+                            value={`${
+                                hostName.current || "http://toomeet.click"
+                            }/profile/${account?.user.id}`}
                         />
                     </DialogContent>
                 </Dialog>

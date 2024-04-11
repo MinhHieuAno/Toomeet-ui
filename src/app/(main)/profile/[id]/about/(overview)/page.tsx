@@ -1,10 +1,10 @@
 "use client";
-import ProfileInfoGroup from "@/components/profile/ProfileInfoGroup";
-import ProfileInfoItem from "@/components/profile/ProfileInfoItem";
 import { useToast } from "@/components/ui/use-toast";
 import { ProfileOverviewType } from "@/lib/profile.utils";
 import { sleep } from "@/lib/utils";
 import React, { useEffect, useState } from "react";
+import ProfileInfoGroup from "../../../components/ProfileInfoGroup";
+import ProfileInfoItem from "../../../components/ProfileInfoItem";
 
 type Props = {};
 
@@ -22,11 +22,11 @@ const page = (props: Props) => {
                 setLoading(true);
                 await sleep(2000);
                 setProfileOverview({
-                    address: "Tân Uyên, Bính Dương",
-                    education: "TDMU",
-                    email: "hieu@gmail.com",
-                    phone: "0932251521",
-                    workplace: "Tân Uyên, Bính Dương",
+                    address: "Không có thông tin",
+                    education: "Không có thông tin",
+                    email: "Không có thông tin",
+                    phone: "Không có thông tin",
+                    workplace: "Không có thông tin",
                 });
             } catch (error) {
                 console.log(error);

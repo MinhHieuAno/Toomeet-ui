@@ -1,8 +1,8 @@
-import SettingSidebar from "@/components/setting/SettingSidebar";
 import MaxWidthWrapper from "@/components/wrappers/MaxWidthWrapper";
 import { Metadata } from "next";
 import { headers } from "next/headers";
 import { ReactNode } from "react";
+import SettingSidebar from "../components/SettingSidebar";
 
 export const metadata: Metadata = {
     title: {

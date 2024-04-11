@@ -1,9 +1,9 @@
-import ChatRoom from "@/components/chat/room/ChatRoom";
+import ChatRoom from "@/app/(main)/messages/components/room/ChatRoom";
 import { Card } from "@/components/ui/card";
 
-type Props = {};
+type Props = { params: { id: string } };
 
-const page = ({ params }: { params: { id: string } }) => {
+const page = ({ params }: Props) => {
     return (
         <>
             <Card className="col-span-8">

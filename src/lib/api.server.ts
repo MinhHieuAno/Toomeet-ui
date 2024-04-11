@@ -3,7 +3,7 @@ import axios from "axios";
 import { cookies } from "next/headers";
 
 const api = axios.create({
-    baseURL: process.env.NEXT_PUBLIC_SERVER_URL,
+    baseURL: process.env.NEXT_SERVER_URL,
 });
 
 api.interceptors.request.use(

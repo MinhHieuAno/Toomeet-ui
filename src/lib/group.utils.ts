@@ -3,16 +3,18 @@ export enum GroupPrivacy {
     PRIVATE = 0,
 }
 
-export type GroupType = {
+export type Group = {
     groupId: string;
     name: string;
-    description: string;
-    user: any;
-    admin: number;
     avatar: string;
-    // private Integer quantityMember;
-    // @CreationTimestamp
-    // private Date createdAt;
-    // @UpdateTimestamp
-    // private Date updatedAt;
+    quantityMember: number;
+    description: string;
+    admin: {
+        id: number;
+        name: string;
+        avatar: string;
+    };
+    createdAt: string;
+    updatedAt: string;
+    member: boolean;
 };

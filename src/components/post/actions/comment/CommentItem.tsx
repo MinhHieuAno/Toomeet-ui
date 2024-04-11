@@ -5,21 +5,57 @@ import { cn, getUsername } from "@/lib/utils";
 import moment from "moment";
 import CommentReaction from "./CommentReaction";
 import CommentList from "./CommentList";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useComment } from "@/context/CommentProvider";
+import { useSocket } from "@/context/SocketProvider";
+import { usePost } from "@/context/PostProvider";
 
 type Props = {
     data: CommentType;
     isChildren?: boolean;
+    canScrollIntoView?: boolean;
 };
 
-const CommentItem = ({ data, isChildren }: Props) => {
+const CommentItem = ({
+    data,
+    isChildren,
+    canScrollIntoView = false,
+}: Props) => {
     const [showReply, setShowReply] = useState<boolean>(false);
+    const [replyCount, setReplyCount] = useState<number>(data.replyCount);
     const { setReplyComment } = useComment();
+    const { getConnection } = useSocket();
+    const commentRef = useRef<HTMLDivElement>(null);
+    const { post } = usePost();
+
+    useEffect(() => {
+        if (!canScrollIntoView || !commentRef.current) return;
+
+        commentRef.current.scrollIntoView({
+            behavior: "smooth",
+            block: "nearest",
+        });
+    }, [commentRef]);
+
+    useEffect(() => {
+        const client = getConnection();
+        if (!client || !client.connected) return;
+
+        const subscription = client.subscribe(
+            `/post/new-comment/${data.id}`,
+            (message) => {
+                setReplyCount((count) => count + 1);
+            }
+        );
+
+        return () => {
+            subscription.unsubscribe();
+        };
+    }, [data.id]);
 
     return (
-        <div>
-            <div className="relative flex justify-start items-start gap-2">
+        <div ref={commentRef}>
+            <div className="relative flex justify-start items-start gap-2 w-full">
                 <span className="absolute top-10 left-[19px] w-[20px] border-l-4 rounded-bl-md h-[60%] "></span>
                 <Avatar
                     className={cn({
@@ -58,15 +94,15 @@ const CommentItem = ({ data, isChildren }: Props) => {
                     </div>
                 </div>
             </div>
-            {data.replyCount > 0 && (
+            {replyCount > 0 && (
                 <div className="pl-8">
                     <span
                         onClick={() => setShowReply((show) => !show)}
                         className="hover:underline hover:text-primary text-sm transition-all cursor-pointer"
                     >
                         {showReply
-                            ? `ẩn ${data.replyCount} bình luận`
-                            : `xem thêm ${data.replyCount} bình luận`}
+                            ? `ẩn ${replyCount} bình luận`
+                            : `xem thêm ${replyCount} bình luận`}
                     </span>
                     {showReply && (
                         <CommentList

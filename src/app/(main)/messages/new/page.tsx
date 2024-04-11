@@ -1,5 +1,5 @@
-import ChatDemo from "@/components/chat/ChatDemo";
 import React from "react";
+import ChatDemo from "../components/ChatDemo";
 
 type Props = {};
 

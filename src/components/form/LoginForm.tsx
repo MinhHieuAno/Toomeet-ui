@@ -1,12 +1,15 @@
 "use client";
+import { useAuth } from "@/context/AuthProvider";
+import api from "@/lib/api";
 import { cn } from "@/lib/utils";
 import { loginSchema } from "@/schema/auth.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
-import Cookies from "js-cookie";
-import { Button, buttonVariants } from "../ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import {
     Form,
     FormControl,
@@ -14,12 +17,8 @@ import {
     FormItem,
     FormLabel,
     FormMessage,
-} from "../ui/form";
-import { Input } from "../ui/input";
-import api from "@/lib/api";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { useAuth } from "@/context/AuthProvider";
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 
 const LoginForm = () => {
     const [loading, setLoading] = useState<boolean>(false);
@@ -45,10 +44,9 @@ const LoginForm = () => {
                 window.location.replace("/");
                 router.replace("/");
             } else {
-                // router.push(
-                //     `/auth/validation?o=${data.otpId}&a=${data.accountId}&2fa=true`
-                // );
-                alert(JSON.stringify(data));
+                router.push(
+                    `/auth/validation?o=${data.otpId}&a=${data.accountId}&2fa=true`
+                );
             }
         } catch (error: any) {
             for (const key in error) {

@@ -35,7 +35,7 @@ api.interceptors.response.use(
 
         const message = error?.response?.data?.message;
         if (message) return Promise.reject(message);
-        return Promise.reject("Đã có lỗi xảy ra vui lòng thử lại sau");
+        return Promise.reject(`Đã có lỗi xảy ra vui lòng thử lại sau. `);
     }
 );
 export default api;

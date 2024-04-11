@@ -1,6 +1,6 @@
-import ChatSidebar from "@/components/chat/ChatSidebar";
 import { Card } from "@/components/ui/card";
 import { headers } from "next/headers";
+import ChatSidebar from "../../components/ChatSidebar";
 
 type Props = {};
 

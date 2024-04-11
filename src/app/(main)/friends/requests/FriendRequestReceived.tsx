@@ -1,7 +1,6 @@
 "use client";
 import ButtonAcceptFriend from "@/components/button/ButtonAcceptFriend";
 import ButtonRejectFriend from "@/components/button/ButtonRejectFriend";
-import AddFriendCard from "@/components/card/AddFriendCard";
 import FriendCard from "@/components/card/FriendCard";
 import FriendCardLoading from "@/components/card/FriendCardLoading";
 import api from "@/lib/api";

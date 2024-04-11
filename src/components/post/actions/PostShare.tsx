@@ -41,7 +41,7 @@ const PostShare = (props: Props) => {
                 method: "POST",
                 url: "/posts/share",
                 data: {
-                    postId: post.id,
+                    postId: post.originPost?.id || post.id,
                     privacy,
                 },
             });
@@ -96,6 +96,7 @@ const PostShare = (props: Props) => {
                     onValueChange={(value) => {
                         setPrivacy(+value);
                     }}
+                    defaultValue={PostPrivacy.PUBLIC.toString()}
                 >
                     <SelectTrigger
                         defaultChecked

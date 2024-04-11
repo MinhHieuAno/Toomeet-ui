@@ -1,7 +1,7 @@
 import ButtonBack from "@/components/button/ButtonBack";
-import SettingSidebar from "@/components/setting/SettingSidebar";
 import MaxWidthWrapper from "@/components/wrappers/MaxWidthWrapper";
 import React, { ReactNode } from "react";
+import SettingSidebar from "../components/SettingSidebar";
 
 type Props = {
     children: ReactNode;

@@ -1,7 +1,6 @@
 "use client";
 import AddFriendCard from "@/components/card/AddFriendCard";
 import FriendCardLoading from "@/components/card/FriendCardLoading";
-import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
 import api from "@/lib/api";
 import { Page } from "@/lib/common.type";

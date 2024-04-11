@@ -1,4 +1,4 @@
-import SettingSidebar from "@/components/setting/SettingSidebar";
+import SettingSidebar from "./components/SettingSidebar";
 
 type Props = {};
 

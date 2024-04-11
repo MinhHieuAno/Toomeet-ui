@@ -1,6 +1,6 @@
-import ChatSidebar from "@/components/chat/ChatSidebar";
 import { headers } from "next/headers";
 import React, { ReactNode } from "react";
+import ChatSidebar from "../../components/ChatSidebar";
 
 type Props = {
     children: ReactNode;

@@ -5,9 +5,8 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useFormContext } from "react-hook-form";
 import * as z from "zod";
-import ChooseMember from "../chat/ChooseMember";
-import { Button } from "../ui/button";
-import ColorPicker from "../ui/color-picker";
+import { Button } from "@/components/ui/button";
+import ColorPicker from "@/components/ui/color-picker";
 import {
     Form,
     FormControl,
@@ -15,9 +14,10 @@ import {
     FormItem,
     FormLabel,
     FormMessage,
-} from "../ui/form";
-import { Input } from "../ui/input";
-import { useToast } from "../ui/use-toast";
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { useToast } from "@/components/ui/use-toast";
+import ChooseMember from "@/app/(main)/messages/components/ChooseMember";
 type Props = {};
 
 const CreatChatRoomForm = (props: Props) => {

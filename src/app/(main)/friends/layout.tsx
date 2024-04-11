@@ -3,13 +3,12 @@ import Navbar from "@/components/header/Navbar";
 import SideBarItem from "@/components/sidebar/SideBarItem";
 import Sidebar from "@/components/sidebar/Sidebar";
 import SidebarBlock from "@/components/sidebar/SidebarBlock";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 import MaxWidthWrapper from "@/components/wrappers/MaxWidthWrapper";
-import { useSocket } from "@/context/SocketProvider";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ReactNode, useEffect } from "react";
+import { ReactNode } from "react";
 
 type Props = {
     children: ReactNode;

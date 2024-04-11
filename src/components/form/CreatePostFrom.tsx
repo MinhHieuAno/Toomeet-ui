@@ -6,22 +6,22 @@ import {
     DialogTitle,
 } from "@/components/ui/dialog";
 import FormData from "form-data";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import { Button } from "../ui/button";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
 import {
     Form,
     FormControl,
     FormField,
     FormItem,
     FormMessage,
-} from "../ui/form";
+} from "@/components/ui/form";
 import {
     Select,
     SelectContent,
     SelectItem,
     SelectTrigger,
     SelectValue,
-} from "../ui/select";
+} from "@/components/ui/select";
 
 import { useAuth } from "@/context/AuthProvider";
 import api from "@/lib/api";
@@ -32,14 +32,16 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { ImageListType, ImageType } from "react-images-uploading";
 import * as z from "zod";
-import TextArea from "../ui/text-area";
+import TextArea from "@/components/ui/text-area";
 import { useState } from "react";
-import { useToast } from "../ui/use-toast";
+import { useToast } from "@/components/ui/use-toast";
 import CreatePostAction from "../post/create/CreatePostAction";
 
-type Props = {};
+type Props = {
+    url?: string;
+};
 
-const CreatePostFrom = (props: Props) => {
+const CreatePostFrom = ({ url }: Props) => {
     const [loading, setLoading] = useState<boolean>(false);
 
     const { account } = useAuth();
@@ -78,8 +80,8 @@ const CreatePostFrom = (props: Props) => {
             //     })
             // );
 
-            const response = await api({
-                url: "/posts",
+            await api({
+                url: url || "/posts",
                 method: "POST",
                 data: formData,
             });

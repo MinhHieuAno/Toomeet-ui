@@ -1,8 +1,8 @@
-import ButtonBack from "@/components/button/ButtonBack";
-import SettingSidebar from "@/components/setting/SettingSidebar";
 import MaxWidthWrapper from "@/components/wrappers/MaxWidthWrapper";
 import { Metadata } from "next";
 import React, { ReactNode } from "react";
+import SettingSidebar from "../components/SettingSidebar";
+import ButtonBack from "@/components/button/ButtonBack";
 
 export const metadata: Metadata = {
     title: "Tài khoản và Bảo mật",

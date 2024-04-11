@@ -10,7 +10,7 @@ import { Home, Search, Store, UserRound, Users } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ReactNode, useMemo } from "react";
-import { buttonVariants } from "../ui/button";
+import { buttonVariants } from "@/components/ui/button";
 import { useViewport } from "@/context/ViewportProvider";
 
 type Props = {
@@ -47,7 +47,7 @@ const Navbar = ({ className }: Props) => {
 
             <NavItem
                 label="Nhóm"
-                to={isMobile ? "/groups" : "/groups/feed"}
+                to={isMobile ? "/groups" : "/groups/discover"}
                 active={pathname.startsWith("/groups")}
             >
                 <Users />

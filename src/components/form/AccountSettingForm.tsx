@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import {
     Form,
@@ -7,19 +7,19 @@ import {
     FormField,
     FormItem,
     FormMessage,
-} from "../ui/form";
+} from "@/components/ui/form";
 import * as z from "zod";
 import { accoutSettingSchema } from "@/schema/setting.schema";
-import { useToast } from "../ui/use-toast";
-import { Input } from "../ui/input";
+import { useToast } from "@/components/ui/use-toast";
+import { Input } from "@/components/ui/input";
 import { Edit } from "lucide-react";
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useAuth } from "@/context/AuthProvider";
 import api from "@/lib/api";
 type Props = {};
 
-const AccountForm = (props: Props) => {
+const AccountSettingForm = (props: Props) => {
     const [editName, setEditName] = useState<boolean>(false);
     const [loading, setLoading] = useState<boolean>(false);
     const { account, updateAccount } = useAuth();
@@ -30,6 +30,11 @@ const AccountForm = (props: Props) => {
             name: account?.user.name || "",
         },
     });
+
+    useEffect(() => {
+        if (!account) return;
+        form.setValue("name", account.user.name);
+    }, [account]);
 
     const { toast } = useToast();
 
@@ -119,4 +124,4 @@ const AccountForm = (props: Props) => {
     );
 };
 
-export default AccountForm;
+export default AccountSettingForm;

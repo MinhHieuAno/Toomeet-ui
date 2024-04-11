@@ -1,7 +1,7 @@
 import React from "react";
-import { Card, CardDecoration } from "../ui/card";
-import { Skeleton } from "../ui/skeleton";
-import { Button } from "../ui/button";
+import { Card, CardDecoration } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Button } from "@/components/ui/button";
 
 type Props = {};
 

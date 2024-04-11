@@ -2,8 +2,8 @@
 import { Card, CardContent } from "@/components/ui/card";
 
 import { FC } from "react";
-import { Separator } from "../ui/separator";
-import { Skeleton } from "../ui/skeleton";
+import { Separator } from "@/components/ui/separator";
+import { Skeleton } from "@/components/ui/skeleton";
 
 type Props = {};
 const PostItemLoading: FC<Props> = (props) => {

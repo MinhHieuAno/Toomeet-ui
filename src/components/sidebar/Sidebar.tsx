@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils";
 import React, { FC, ReactNode } from "react";
-import { ScrollArea } from "../ui/scroll-area";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 type Props = {
     className?: string;
