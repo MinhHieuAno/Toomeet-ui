@@ -39,25 +39,23 @@ const NewsFeed = ({ className }: Props) => {
         first.current = false;
     }, []);
 
-    useEffect(() => {
-        const client = getConnection();
-        if (!client || !client.connected || !account || !account.user.id)
-            return;
+    // useEffect(() => {
+    //     const client = getConnection();
+    //     if (!client || !client.connected || !account || !account.user.id)
+    //         return;
 
-        const subscription = client.subscribe(
-            `/post-newsfeed/${account?.user.id}`,
-            (message) => {
-                const data = JSON.parse(message.body);
-                console.log(data);
-                alert("setnew post");
-                setRealtimeNewsfeed((posts) => [...posts, data.post]);
-            }
-        );
+    //     const subscription = client.subscribe(
+    //         `/post-newsfeed/${account?.user.id}`,
+    //         (message) => {
+    //             const data = JSON.parse(message.body);
+    //             setRealtimeNewsfeed((posts) => [...posts, data.post]);
+    //         }
+    //     );
 
-        return () => {
-            subscription.unsubscribe();
-        };
-    }, [account?.user.id]);
+    //     return () => {
+    //         subscription.unsubscribe();
+    //     };
+    // }, [account?.user.id]);
 
     const fetch = async () => {
         try {
@@ -111,14 +109,14 @@ const NewsFeed = ({ className }: Props) => {
                         </PostProvider>
                     );
                 })}
-                {realtimeNewsfeed.map((post, index) => {
-                    return (
-                        <PostProvider key={index} data={post}>
-                            <PostItem></PostItem>
-                        </PostProvider>
-                    );
-                })}
             </InfiniteScroll>
+            {/* {realtimeNewsfeed.map((post, index) => {
+                return (
+                    <PostProvider key={index} data={post}>
+                        <PostItem></PostItem>
+                    </PostProvider>
+                );
+            })} */}
         </div>
     );
 };

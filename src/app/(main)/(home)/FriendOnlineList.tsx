@@ -22,16 +22,18 @@ const FriendOnlineList = (props: Props) => {
     useEffect(() => {
         (async () => {
             try {
-                // setLoading(true);
-                // const response = await api("users/friends/online");
-                // const data = response.data;
-                // setFriends(() => data.content);
+                setLoading(true);
+                const response = await api(
+                    "http://localhost:8082/users/friends/online"
+                );
+                const data = response.data;
+                setFriends(() => data.content);
             } catch (error) {
                 console.log("Load friend online failed:::" + error);
             }
             setLoading(false);
         })();
-    });
+    }, []);
 
     useEffect(() => {
         if (!searchValue.trim()) {
